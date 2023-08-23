@@ -20,10 +20,10 @@ const createElement = () => {
   const selectedOption = document.createElement("p");
   selectedOption.classList.add("custom-select__name");
 
-  selectWrapper.appendChild(label);
+  // selectWrapper.appendChild(label);
   selectWrapper.appendChild(select);
-  imgWrapper.appendChild(img);
-  col.appendChild(imgWrapper);
+  // imgWrapper.appendChild(img);
+  // col.appendChild(imgWrapper);
   col.appendChild(selectWrapper);
 
   return {

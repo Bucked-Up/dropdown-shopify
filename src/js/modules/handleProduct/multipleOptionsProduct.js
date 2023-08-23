@@ -38,11 +38,11 @@ const multipleOptionsProduct = (product, btnIndex) => {
   primaryElement.col.setAttribute("multiple",product.id)
 
   primaryElement.select.addEventListener("change", () => {
-    updateImageMultiple(product, primaryElement.select.value, primaryElement);
+    // updateImageMultiple(product, primaryElement.select.value, primaryElement);
     updateSizes();
   });  
 
-  updateImageMultiple(product, product.variants[0].title, primaryElement);
+  // updateImageMultiple(product, product.variants[0].title, primaryElement);
 
   //percorrer as variantes filtradas com base no primaryOption title que tenham secondaryOption title tb
   const updateSizes = () =>{
