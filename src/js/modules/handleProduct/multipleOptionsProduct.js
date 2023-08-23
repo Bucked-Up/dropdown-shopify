@@ -1,5 +1,4 @@
 import { createElement, updateImageMultiple, createOption } from "./domElements.js";
-import toggleButton from "../toggleButton.js";
 
 const multipleOptionsProduct = (product, btnIndex) => {
   //filtrar com base no estoque de todas que tem essa opção
@@ -36,6 +35,8 @@ const multipleOptionsProduct = (product, btnIndex) => {
   const primaryElement = createDropdown(primaryOption);
   const secondaryElement = createDropdown(secondaryOption, primaryElement);
 
+  primaryElement.col.setAttribute("multiple",product.id)
+
   primaryElement.select.addEventListener("change", () => {
     updateImageMultiple(product, primaryElement.select.value, primaryElement);
     updateSizes();
@@ -56,10 +57,6 @@ const multipleOptionsProduct = (product, btnIndex) => {
     })
     updateSelect(secondarySelect)
   }
-  buyButton[btnIndex].forEach(btn=>{
-    btn.setAttribute("multiple",product.id)
-  })
-  toggleButton(buyButton[btnIndex]);
   return true;
 };
 

@@ -1,5 +1,4 @@
 import { createElement, updateImage, createOption } from "./domElements.js";
-import toggleButton from "../toggleButton.js";
 
 const normalProduct = (product, btnIndex) => {
   const newElement = createElement();
@@ -25,7 +24,6 @@ const normalProduct = (product, btnIndex) => {
   //     );
   //   } else
   // });
-  toggleButton(buyButton[btnIndex]);
   return true;
 };
 

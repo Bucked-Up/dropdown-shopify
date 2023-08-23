@@ -1,19 +1,7 @@
 import toggleButton from "./toggleButton.js";
 import { fetchUrl, apiOptions } from "../variables.js";
 
-//updates order
-const buy = async (data) => {
-  buyButton.forEach((btnArray) => {
-    toggleButton(btnArray);
-  });
-  //if equals 0, then the data hasnt been fetched yet.
-  if (data.length === 0) {
-    return;
-  }
-  //if null, the api wasnt able to return the data.
-  if (data == null) {
-    return;
-  }
+const getVariantId = (data) =>{
   let variantId
   if(document.querySelector(`[multiple="${data.id}"]`)){
     const wrapper = document.getElementById(data.id)
@@ -24,16 +12,46 @@ const buy = async (data) => {
     const select = document.getElementById(data.id);
     variantId = select.value;
   }
-  const input = `
+  return variantId
+}
+
+//updates order
+const buy = async (data) => {
+  if(!isKit)
+    buyButton.forEach((btnArray) => {
+      toggleButton(btnArray);
+    });
+  else
+    toggleButton(buyButton)
+  //if equals 0, then the data hasnt been fetched yet.
+  if (data.length === 0) {
+    return;
+  }
+  //if null, the api wasnt able to return the data.
+  if (data == null) {
+    return;
+  }
+  
+  const variantId = []
+  
+  if(isKit){
+    data.forEach(product=>{
+      variantId.push(getVariantId(product))
+    })
+  }
+  else
+    variantId.push(getVariantId(data))
+
+  const obj = variantId.map(id=>{return {"variantId": id,"quantity": 1}})
+  const input = 
     {
       "input":{
-        "lineItems": [{
-          "variantId": "${variantId}",
-          "quantity": 1
-        }]
+        "lineItems": [
+          ...obj
+        ]
       }
     }
-  `;
+  ;
   const query = `
     mutation checkoutCreate($input: CheckoutCreateInput!) {
       checkoutCreate(input: $input) {
@@ -46,7 +64,7 @@ const buy = async (data) => {
   `;
   const body = {
     query: query,
-    variables: JSON.parse(input),
+    variables: input,
   };
   try {
     const response = await fetch(fetchUrl, {

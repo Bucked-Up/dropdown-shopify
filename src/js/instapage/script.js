@@ -10,18 +10,23 @@ urlParams.set("utm_source", "");
 
 // const country = "ca";
 
-const productsID = [6682439581905,6675141558481]; //ID of each the product
-const buyButtonsIds = [["#element-35"],["#element-37"]]; //IDs of each button of each product(in the order put in productID).
+const productsID = [6682439581905, 6675141558481]; //ID of each the product
+const isKit = true;
+const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 
 //DONT CHANGE
 const buyButton = [];
 
 buyButtonsIds.forEach((ids) => {
   let buttons = [];
-  ids.forEach((id) => {
-    buttons.push(document.querySelector(id));
-  });
-  buyButton.push(buttons);
+  if(!isKit){
+    ids.forEach((id) => {
+      buttons.push(document.querySelector(id));
+    });
+    buyButton.push(buttons);
+  }
+  else
+    buyButton.push(document.querySelector(ids))
 });
 
 const row = {};
