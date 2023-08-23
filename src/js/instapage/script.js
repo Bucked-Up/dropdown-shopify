@@ -10,7 +10,7 @@ urlParams.set("utm_source", "");
 
 // const country = "ca";
 
-const productsID = [6675154075857,6675141558481]; //ID of each the product
+const productsID = [6682439581905,6675141558481]; //ID of each the product
 const buyButtonsIds = [["#element-35"],["#element-37"]]; //IDs of each button of each product(in the order put in productID).
 
 //DONT CHANGE
