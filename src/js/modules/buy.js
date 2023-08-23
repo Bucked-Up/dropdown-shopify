@@ -15,6 +15,32 @@ const getVariantId = (data) =>{
   return variantId
 }
 
+const addDiscount = async (checkoutId) =>{
+  const input = {
+    "checkoutId": checkoutId,
+    "discountCode": discountCode
+  }  
+  const query = `
+    mutation checkoutDiscountCodeApplyV2($checkoutId: ID!, $discountCode: String!) {
+      checkoutDiscountCodeApplyV2(checkoutId: $checkoutId, discountCode: $discountCode) {
+        checkout {
+          id
+          webUrl
+        }
+      }
+    }
+  `
+  const body = {
+    query: query,
+    variables: input,
+  };
+  const response = await fetch(fetchUrl, {
+    ...apiOptions,
+    body: JSON.stringify(body),
+  });
+  return response
+}
+
 //updates order
 const buy = async (data) => {
   if(!isKit)
@@ -57,6 +83,7 @@ const buy = async (data) => {
       checkoutCreate(input: $input) {
         checkout {
           webUrl
+          id
           currencyCode
         }
       }
@@ -74,8 +101,13 @@ const buy = async (data) => {
     const responseLog = await response.json();
     if(!response.ok)
       throw new Error("Api Error.")
+    if(discountCode !== ""){
+      const responseDiscount = await addDiscount(responseLog.data.checkoutCreate.checkout.id)
+      if(!responseDiscount.ok)
+        throw new Error("Api Discount Error.")
+    }
     dataLayerRedirect()
-    window.location.href = responseLog.data.checkoutCreate.checkout.webUrl;
+    window.location.href = responseLog.data.checkoutCreate.checkout.webUrl + `?${urlParams}`;
   } catch (error) {
     alert("There was a problem. Please try again later.");
     console.log(error);
