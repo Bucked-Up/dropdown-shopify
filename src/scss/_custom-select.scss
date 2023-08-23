@@ -1,0 +1,42 @@
+.custom-select{
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  text-align: left;
+  &,&__name{
+    min-width: 10rem;
+    background-color: #fff;
+  }
+  &__name{
+    border: 0.0625rem solid #000;
+    padding: 0.5rem;
+    border-radius: 0.3125rem;
+  }
+  &__options{
+    background-color: #fff;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.3s;
+    border-radius: 0 0 0.3125rem 0.3125rem;
+    border: 0.0625rem solid black;
+  }
+  &__option{
+    padding: 0 0.5rem 0.5rem 0.5rem;
+  }
+  &.active &__options{
+    padding-top: 0.5rem;
+  }
+  @media(max-width:1320px){
+    min-width: 12rem;
+    &__name{
+      padding: 1rem;
+      font-size: 1rem;
+    }
+    &__option{
+      padding: 0 1rem 1rem 1rem;
+      font-size: 1rem;
+    }
+    &.active &__options{
+      padding-top: 1rem;
+    }
+  }
+}
