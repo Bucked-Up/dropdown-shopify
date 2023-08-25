@@ -1,5 +1,5 @@
-const storefrontAccessToken = "cf7a17ee55258cddfb9be5ef93cc96b2";
-const shop = "bucked-up-offers";
+const storefrontAccessToken = "3f0fe03b9adb374eee07d99b57da77bd";
+const shop = "get-buckedup";
 const fetchUrl = `https://${shop}.myshopify.com/api/2021-07/graphql.json`;
 const apiOptions = {
   method: "POST",
