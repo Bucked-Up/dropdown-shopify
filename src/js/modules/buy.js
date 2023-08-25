@@ -1,5 +1,6 @@
 import toggleButton from "./toggleButton.js";
 import { fetchUrl, apiOptions } from "../variables.js";
+import toggleLoading from "./toggleLoading.js";
 
 const getVariantId = (data) =>{
   let variantId
@@ -43,6 +44,7 @@ const addDiscount = async (checkoutId) =>{
 
 //updates order
 const buy = async (data) => {
+  toggleLoading();
   if(!isKit)
     buyButton.forEach((btnArray) => {
       toggleButton(btnArray);
