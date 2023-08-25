@@ -49,11 +49,9 @@ const fetchProduct = async (ids,data) => {
       }
     );
     data = await response.json();
-    console.log(data)
     if (!response.ok) {
       throw new Error("Error Fetching Api.")
     }
-    data = await response.json();
     data = data.data.nodes;
     data.forEach((obj) => {
       obj.id = obj.id.split("/")
