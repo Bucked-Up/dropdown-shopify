@@ -48,6 +48,8 @@ const fetchProduct = async (ids,data) => {
         body: JSON.stringify({ query: query }),
       }
     );
+    data = await response.json();
+    console.log(data)
     if (!response.ok) {
       throw new Error("Error Fetching Api.")
     }
