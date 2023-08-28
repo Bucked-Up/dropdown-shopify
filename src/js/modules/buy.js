@@ -3,6 +3,8 @@ import { fetchUrl, apiOptions } from "../variables.js";
 import toggleLoading from "./toggleLoading.js";
 
 const getVariantId = (data) =>{
+  if(data.isHidden)
+    return data.variants[0].id
   let variantId
   if(document.querySelector(`[multiple="${data.id}"]`)){
     const wrapper = document.getElementById(data.id)

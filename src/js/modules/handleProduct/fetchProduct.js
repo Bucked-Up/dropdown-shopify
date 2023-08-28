@@ -1,6 +1,6 @@
 import toggleLoading from "../toggleLoading.js";
 import { apiOptions, fetchUrl } from "../../variables.js";
-const fetchProduct = async (ids,data) => {
+const fetchProduct = async ({ids,isHidden}) => {
   toggleLoading();
   const query = `
   { 
@@ -48,12 +48,14 @@ const fetchProduct = async (ids,data) => {
         body: JSON.stringify({ query: query }),
       }
     );
-    data = await response.json();
+    let data = await response.json();
     if (!response.ok) {
       throw new Error("Error Fetching Api.")
     }
     data = data.data.nodes;
     data.forEach((obj) => {
+      if(isHidden)
+        obj.isHidden = true
       obj.id = obj.id.split("/")
       obj.id = obj.id[obj.id.length - 1]
       obj.variants = obj.variants.edges.filter(edge=>edge.node.availableForSale);

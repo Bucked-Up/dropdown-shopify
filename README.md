@@ -26,12 +26,11 @@
 
   urlParams.set("utm_source", "");
 
-  // const country = "ca";
-
   const productsID = [999,999]; //ID of each the product
+  const hiddenProducts = [9999,9999] //only works if isKit = false
   const isKit = true;
   //if isKit false, array of arrays.
-  const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
+  const buyButtonsIds = ["#element-35"];
   const discountCode = ""
 
   //DONT CHANGE

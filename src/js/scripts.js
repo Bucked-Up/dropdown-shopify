@@ -6,14 +6,16 @@ import buy from "./modules/buy.js";
 let globalData = [];
 
 window.onload = async () => {
-  globalData = await fetchProduct(productsID);
+  globalData = await fetchProduct({ ids: productsID, isHidden: false });
+  const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
+  globalData.push(...hiddenProductsData)
   const noStock = (el) => !el.availableForSale;
   if (globalData.some(noStock)) {
     alert("Product not found.");
     window.location.href = "https://buckedup.com";
     return;
   }
-  globalData.forEach((product, i) => {
+  globalData.filter(product => !product.isHidden).forEach((product, i) => {
     if (product.options.length > 1) {
       multipleOptionsProduct(product, i);
       return;

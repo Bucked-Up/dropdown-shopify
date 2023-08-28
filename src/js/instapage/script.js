@@ -11,6 +11,7 @@ urlParams.set("utm_source", "");
 // const country = "ca";
 
 const productsID = [8647672627506]; //ID of each the product
+const hiddenProducts = [8647678066994, 8647679541554] //only works if isKit = false
 const isKit = true;
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
@@ -20,7 +21,7 @@ const buyButton = [];
 
 buyButtonsIds.forEach((ids) => {
   let buttons = [];
-  if(!isKit){
+  if (!isKit) {
     ids.forEach((id) => {
       buttons.push(document.querySelector(id));
     });
