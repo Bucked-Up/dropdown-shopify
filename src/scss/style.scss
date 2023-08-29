@@ -1,16 +1,17 @@
 @import "./custom-select";
 @import "./loading-screen";
 
-:root{
+:root {
   --primary: #ff2321;
   --secondary: #ffe3e3;
+  --text-color: purple;
 }
 
 @mixin buttonStyle() {
   user-select: none;
   cursor: pointer;
   align-items: center;
-  color: #000;
+  color: var(--text-color);
   width: 100%;
   border-radius: 100px;
 }
@@ -23,6 +24,7 @@
   }
   p {
     margin: 0;
+    color: var(--text-color);
   }
   .variants-wrapper {
     display: flex;
@@ -31,8 +33,19 @@
     width: 100%;
     padding: 0 0.5rem;
     border-radius: 0.5rem;
-    & + .dropdown-mobile{
-      margin-top:0.5rem;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--secondary);
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 8px;
+    }
+    & + .dropdown-mobile {
+      margin-top: 0.5rem;
     }
   }
   .dropdown-mobile {
@@ -52,6 +65,9 @@
     svg {
       flex-shrink: 0;
       transition: 0.3s;
+      path {
+        fill: var(--text-color);
+      }
     }
     &.active svg {
       transform: rotate(0.5turn);
@@ -64,9 +80,10 @@
         transition: 0.3s;
       }
       &.active + div {
-        max-height: 80rem;
+        max-height: 21rem;
         margin-top: 0.7rem;
         padding: 0.5rem;
+        overflow-y: auto;
       }
     }
   }
@@ -127,7 +144,7 @@
       }
     }
   }
-  .dropdown-img{
+  .dropdown-img {
     display: none;
     width: 100%;
     object-fit: scale-down;
@@ -136,7 +153,7 @@
     .img {
       display: none;
     }
-    .dropdown-img{
+    .dropdown-img {
       display: block;
     }
     .variants-wrapper {
@@ -152,9 +169,10 @@
         transition: 0.3s;
       }
       &.active + div {
-        max-height: 80rem;
+        max-height: 21rem;
         margin-top: 0.7rem;
         padding: 0.5rem;
+        overflow-y: auto;
       }
     }
   }
@@ -163,7 +181,7 @@
       img {
         display: none;
       }
-      .dropdown-img{
+      .dropdown-img {
         display: block;
       }
       .variants-wrapper {
