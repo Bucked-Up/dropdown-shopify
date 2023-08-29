@@ -12,8 +12,8 @@ const getVariantId = (data) =>{
     variantId = data.variants.filter(variant=>(variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
   }
   else{
-    const select = document.getElementById(data.id);
-    variantId = select.value;
+    const input = Array.from(document.querySelectorAll(`[name="${data.id}"]`)).filter(el=>el.checked)[0]
+    variantId = input.value;
   }
   return variantId
 }

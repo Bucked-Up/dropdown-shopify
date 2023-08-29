@@ -1,18 +1,17 @@
-import { createElement, updateImage, createOption } from "./domElements.js";
+import { createButton, createWrapper } from "./domElements.js";
 
 const normalProduct = (product, btnIndex) => {
-  const newElement = createElement();
-
-  row[product.id].appendChild(newElement.col);
-
-  newElement.select.id = product.id;
-  // newElement.select.addEventListener("change", () => {
-  //   updateImage(newElement, product.variants);
-  // });
+  const [domElement, dropdownMobile] = createWrapper(row[product.id], product.variants)
   product.variants.forEach((variant) => {
-      newElement.select.appendChild(createOption(`${variant.id}`, variant.title));
+    const [wrapper, button] = createButton(product.id, variant.id, variant.price.amount, variant.image.src, variant.title,row[product.id].classList.contains("has-img"))
+    domElement.appendChild(wrapper)
+    if (dropdownMobile)
+        button.addEventListener("change", () => {
+          if (button.checked)
+            dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
+        })
   });
-  // updateImage(newElement, product.variants);
+  domElement.querySelector("input").checked = true
   return true;
 };
 

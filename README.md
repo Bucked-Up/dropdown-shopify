@@ -1,10 +1,14 @@
 # Scripts for handling shopify api calls on upcells with dropdowns
 
 ## How to put into instapage
-### 1. Place this code into html/css head
+### 1. Place this code into html/css head, change primary and secondary as needed.
 ```
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/Custom-Select@latest/style.css" />
-<script src="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/Custom-Select@latest/custom-select.js" defer></script>
+<style>
+  :root{
+    --primary: #ff2321;
+    --secondary: #ffe3e3;
+  }
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/scss/style.css" />
 ```
 ### 2. Place this code into a html block, where you want the product to be (one for each product) (change the 999 for the product id)
@@ -13,6 +17,16 @@
 
 </div>
 ```
+
+### 2.5. The div can have the following classes:
+1. has-dropdown: will be a dropdown
+
+2. has-dropdown-mobile: will be dropdown only on mobile
+
+3. has-img: will show image above the buttons or dropdown
+
+4. no-name-mobile: will remove the name from the button on mobile
+
 ### 3. Place this code and change as necessary into html/css footer
 ```
 <script>

@@ -8,10 +8,8 @@ localStorage.setItem("first_page", origin);
 
 urlParams.set("utm_source", "");
 
-// const country = "ca";
-
-const productsID = [8647672627506]; //ID of each the product
-const hiddenProducts = [8647678066994, 8647679541554] //only works if isKit = false
+const productsID = [8658966905138,8658983387442]; //ID of each the product
+const hiddenProducts = [] //only works if isKit = false
 const isKit = true;
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
