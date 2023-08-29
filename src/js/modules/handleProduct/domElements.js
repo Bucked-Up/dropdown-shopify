@@ -1,9 +1,11 @@
 const createButton = (productId, variantId, variantPrice, src, text, hasImg) => {
   const wrapper = document.createElement("div");
   let img
-  if(hasImg){
+  if (hasImg) {
     img = document.createElement("img");
     img.src = src
+    img.alt = text
+    img.classList.add("img")
   }
   const label = document.createElement("label");
   const labelText = document.createElement("span");
@@ -12,7 +14,7 @@ const createButton = (productId, variantId, variantPrice, src, text, hasImg) => 
   const labelContent = document.createElement("span")
   wrapper.appendChild(button)
   wrapper.appendChild(label)
-  if(hasImg)
+  if (hasImg)
     label.appendChild(img)
   label.appendChild(labelContent)
   labelContent.appendChild(labelBall)
@@ -36,9 +38,18 @@ const createButton = (productId, variantId, variantPrice, src, text, hasImg) => 
   return [wrapper, button];
 };
 
-const createWrapper = (element, values) => {
-  const domElementWrapper = document.createElement("div")
-  domElementWrapper.classList.add("products-list__wrapper")
+const createVariantsWrapper = (element, values, hasImg) => {
+  const variantsWrapper = document.createElement("div")
+  let dropdownImg;
+  if (hasImg) {
+    dropdownImg = document.createElement("img")
+    dropdownImg.classList.add("dropdown-img")
+    dropdownImg.src = values[0].image.src
+    dropdownImg.alt = values[0].title
+    element.appendChild(dropdownImg)
+  }
+
+  variantsWrapper.classList.add("variants-wrapper")
   let dropdown = undefined;
   if (element.classList.contains("has-dropdown-mobile") || element.classList.contains("has-dropdown")) {
     dropdown = document.createElement("div");
@@ -54,12 +65,12 @@ const createWrapper = (element, values) => {
       dropdown.classList.toggle("active");
     })
     document.addEventListener("click", (e) => {
-      if(!dropdown.contains(e.target))
+      if (!dropdown.contains(e.target))
         dropdown.classList.remove("active")
     })
   }
-  element.appendChild(domElementWrapper)
-  return [domElementWrapper, dropdown];
+  element.appendChild(variantsWrapper)
+  return [variantsWrapper, dropdown, dropdownImg];
 }
 
 
@@ -138,4 +149,4 @@ const updateSizes = (updateSelects, sizeSelect, colorElement, sizes, stock) => {
   if (updateSelects) updateSelect(sizeSelect);
 };
 
-export { createButton, createWrapper, createElement, createOption, updateImage, updateImageMultiple, updateSizes };
+export { createButton, createVariantsWrapper, createElement, createOption, updateImage, updateImageMultiple, updateSizes };

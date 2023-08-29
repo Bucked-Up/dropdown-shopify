@@ -1,17 +1,24 @@
-import { createButton, createWrapper } from "./domElements.js";
+import { createButton, createVariantsWrapper } from "./domElements.js";
 
-const normalProduct = (product, btnIndex) => {
-  const [domElement, dropdownMobile] = createWrapper(row[product.id], product.variants)
+const normalProduct = (product) => {
+  const hasImg = row[product.id].classList.contains("has-img")
+  const [variantsWrapper, dropdownMobile, dropdownImg] = createVariantsWrapper(row[product.id], product.variants, hasImg)
   product.variants.forEach((variant) => {
-    const [wrapper, button] = createButton(product.id, variant.id, variant.price.amount, variant.image.src, variant.title,row[product.id].classList.contains("has-img"))
-    domElement.appendChild(wrapper)
+    const [wrapper, button] = createButton(product.id, variant.id, variant.price.amount, variant.image.src, variant.title, hasImg)
+    variantsWrapper.appendChild(wrapper)
     if (dropdownMobile)
-        button.addEventListener("change", () => {
-          if (button.checked)
-            dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
-        })
+      button.addEventListener("change", () => {
+        if (button.checked)
+          dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
+      })
+    if (hasImg)
+      button.addEventListener("change", () => {
+        if (button.checked)
+          dropdownImg.src = variant.image.src
+          dropdownImg.alt = variant.title
+      })
   });
-  domElement.querySelector("input").checked = true
+  variantsWrapper.querySelector("input").checked = true
   return true;
 };
 

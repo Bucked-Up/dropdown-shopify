@@ -24,7 +24,7 @@
   p {
     margin: 0;
   }
-  &__wrapper {
+  .variants-wrapper {
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -119,11 +119,19 @@
       }
     }
   }
+  .dropdown-img{
+    display: none;
+    width: 100%;
+    object-fit: scale-down;
+  }
   &.has-dropdown {
-    img {
+    .img {
       display: none;
     }
-    .products-list__wrapper {
+    .dropdown-img{
+      display: block;
+    }
+    .variants-wrapper {
       flex-direction: column;
       gap: 0.7rem;
       background-color: white;
@@ -146,7 +154,10 @@
       img {
         display: none;
       }
-      .products-list__wrapper {
+      .dropdown-img{
+        display: block;
+      }
+      .variants-wrapper {
         flex-direction: column;
         gap: 0.7rem;
         background-color: white;
