@@ -1,7 +1,7 @@
 import { createButton, createVariantsWrapper } from "./domElements.js";
 
 const normalProduct = (product) => {
-  const hasImg = row[product.id].classList.contains("has-img")
+  const hasImg = row[product.id].classList.contains("has-img") || row[product.id].classList.contains("has-img-desktop")
   const [variantsWrapper, dropdownMobile, dropdownImg] = createVariantsWrapper(row[product.id], product.variants, hasImg)
   product.variants.forEach((variant) => {
     const [wrapper, button] = createButton(product.id, variant.id, variant.title, hasImg, variant.image.src, variant.price.amount)

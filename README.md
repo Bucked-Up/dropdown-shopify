@@ -25,7 +25,9 @@
 
 3. has-img: will show image above the buttons or dropdown
 
-4. no-name-mobile: will remove the name from the button on mobile
+4. has-img-desktop: will show image only on desktop
+
+5. no-name-mobile: will remove the name from the button on mobile
 
 ### 3. Place this code and change as necessary into html/css footer
 ```

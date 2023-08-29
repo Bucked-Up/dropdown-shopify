@@ -181,8 +181,10 @@
       img {
         display: none;
       }
-      .dropdown-img {
-        display: block;
+      &:not(.has-img-desktop){
+        .dropdown-img {
+          display: block;
+        }
       }
       .variants-wrapper {
         flex-direction: column;
