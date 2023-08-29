@@ -29,6 +29,11 @@
     align-items: center;
     gap: 1.5rem;
     width: 100%;
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+    & + .dropdown-mobile{
+      margin-top:0.5rem;
+    }
   }
   .dropdown-mobile {
     @include buttonStyle();
@@ -38,12 +43,14 @@
     font-style: normal;
     font-weight: 900;
     line-height: 1;
+    text-align: left;
     padding: 0.94rem 1.5rem;
-    border-radius: 1.54888rem;
+    border-radius: 6.25rem;
     border: 1.549px solid var(--primary);
     background: var(--secondary);
     display: none;
     svg {
+      flex-shrink: 0;
       transition: 0.3s;
     }
     &.active svg {
@@ -53,6 +60,7 @@
       display: flex;
       & + div {
         max-height: 0;
+        padding: 0.5rem;
         overflow: hidden;
         transition: 0.3s;
       }
