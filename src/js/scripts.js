@@ -22,7 +22,6 @@ window.onload = async () => {
     }
     normalProduct(product, i);
   });
-  watchSelects();
   if (!isKit)
     buyButton.forEach((btnArray) => {
       btnArray.forEach((btn) => {

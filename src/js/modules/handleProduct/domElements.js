@@ -82,17 +82,4 @@ const updateImageMultiple = (product, title, img) => {
   }
 };
 
-//updates available shirt sizes based on stock for selected color
-const updateSizes = (updateSelects, sizeSelect, colorElement, sizes, stock) => {
-  sizeSelect.innerHTML = "";
-  sizes.forEach((size) => {
-    if (
-      Object.hasOwn(stock, `[${colorElement.select.value},${size.id}]`) ||
-      Object.hasOwn(stock, `[${size.id},${colorElement.select.value}]`)
-    )
-      sizeSelect.appendChild(createOption(size.id, size.name));
-  });
-  if (updateSelects) updateSelect(sizeSelect);
-};
-
-export { createButton, createVariantsWrapper, updateImageMultiple, updateSizes };
+export { createButton, createVariantsWrapper, updateImageMultiple };

@@ -60,13 +60,13 @@
       display: flex;
       & + div {
         max-height: 0;
-        padding: 0.5rem;
         overflow: hidden;
         transition: 0.3s;
       }
       &.active + div {
-        max-height: 40rem;
+        max-height: 80rem;
         margin-top: 0.7rem;
+        padding: 0.5rem;
       }
     }
   }
@@ -81,7 +81,7 @@
       border-color: var(--primary);
       background-color: var(--secondary);
       .label-ball:after {
-        background-color: #f00;
+        background-color: var(--primary);
       }
     }
     input:disabled + label .label {
@@ -93,7 +93,7 @@
       &:hover,
       &:focus {
         .label {
-          border-color: #f00;
+          border-color: var(--primary);
         }
       }
     }
@@ -152,8 +152,9 @@
         transition: 0.3s;
       }
       &.active + div {
-        max-height: 40rem;
+        max-height: 80rem;
         margin-top: 0.7rem;
+        padding: 0.5rem;
       }
     }
   }
