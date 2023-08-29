@@ -4,7 +4,7 @@ const normalProduct = (product) => {
   const hasImg = row[product.id].classList.contains("has-img")
   const [variantsWrapper, dropdownMobile, dropdownImg] = createVariantsWrapper(row[product.id], product.variants, hasImg)
   product.variants.forEach((variant) => {
-    const [wrapper, button] = createButton(product.id, variant.id, variant.price.amount, variant.image.src, variant.title, hasImg)
+    const [wrapper, button] = createButton(product.id, variant.id, variant.title, hasImg, variant.image.src, variant.price.amount)
     variantsWrapper.appendChild(wrapper)
     if (dropdownMobile)
       button.addEventListener("change", () => {

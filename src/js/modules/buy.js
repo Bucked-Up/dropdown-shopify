@@ -6,9 +6,10 @@ const getVariantId = (data) =>{
   if(data.isHidden)
     return data.variants[0].id
   let variantId
-  if(document.querySelector(`[multiple="${data.id}"]`)){
-    const wrapper = document.getElementById(data.id)
-    const [primary,secondary] = wrapper.querySelectorAll("select")
+  const multipleWrapper = document.querySelector(`[multiple="${data.id}"]`)
+  if(multipleWrapper){
+    const primary = Array.from(multipleWrapper.querySelectorAll("[is='primary']")).filter(el=>el.checked)[0]
+    const secondary = Array.from(multipleWrapper.querySelectorAll("[is='secondary']")).filter(el=>el.checked)[0]
     variantId = data.variants.filter(variant=>(variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
   }
   else{
