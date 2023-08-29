@@ -1,11 +1,11 @@
 @import "./custom-select";
 @import "./loading-screen";
 
-:root {
-  --primary: #ff2321;
-  --secondary: #ffe3e3;
-  --text-color: purple;
-}
+// :root {
+//   --primary: #ff2321;
+//   --secondary: #ffe3e3;
+//   --text-color: purple;
+// }
 
 @mixin buttonStyle() {
   user-select: none;
