@@ -1,5 +1,5 @@
 import { apiOptions, fetchUrl } from "../../variables.js";
-const fetchProduct = async ({ids,isHidden}) => {
+const fetchProduct = async ({ ids, isHidden }) => {
   const query = `
   { 
     nodes(ids: [${ids.map((id) => `"gid://shopify/Product/${id}"`)}]) {
@@ -39,7 +39,7 @@ const fetchProduct = async ({ids,isHidden}) => {
     }
   }
   `;
-  try{
+  try {
     const response = await fetch(fetchUrl,
       {
         ...apiOptions,
@@ -52,26 +52,29 @@ const fetchProduct = async ({ids,isHidden}) => {
     }
     data = data.data.nodes;
     data.forEach((obj) => {
-      if(isHidden)
+      if (isHidden)
         obj.isHidden = true
-      obj.id = obj.id.split("/")
-      obj.id = obj.id[obj.id.length - 1]
-      obj.variants = obj.variants.edges.filter(edge=>edge.node.availableForSale);
+      obj.id = obj.id.split("/").slice(-1)[0]
+
+      if (row[obj.id].classList.contains("move-last-variant"))
+        obj.variants.edges.slice(-1)[0].node["last-variant"] = true
+
+      obj.variants = obj.variants.edges.filter(edge => (edge.node.availableForSale || (!edge.node.availableForSale && edge.node["last-variant"])));
       let minPrice = 99999;
-      for (let key in obj.variants){
+      for (let key in obj.variants) {
         obj.variants[key] = obj.variants[key].node;
         obj.variants[key].title = obj.variants[key].title.split("(")[0]
-        if(obj.variants[key].price.amount < minPrice) minPrice = obj.variants[key].price.amount
-      } 
-      for (let key in obj.variants){
-        if(obj.variants[key].price.amount > minPrice){
+        if (obj.variants[key].price.amount < minPrice) minPrice = obj.variants[key].price.amount
+      }
+      for (let key in obj.variants) {
+        if (obj.variants[key].price.amount > minPrice) {
           const string = `(+$${(obj.variants[key].price.amount - minPrice).toFixed(2)})`
           obj.variants[key].title = obj.variants[key].title + string
         }
       }
     });
     return data
-  }catch(error){
+  } catch (error) {
     alert("Product not found.")
     console.log(error);
     return null;

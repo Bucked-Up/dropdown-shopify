@@ -4,7 +4,8 @@ const multipleOptionsProduct = (product) => {
   //filtrar com base no estoque de todas que tem essa opção
   const primaryOption = product.options[0];
   const secondaryOption = product.options[1];
-  row[product.id].setAttribute("multiple", product.id)
+  const currentRow = row[product.id]
+  currentRow.setAttribute("multiple", product.id)
 
   //filtra opção primária com base em estoque
   primaryOption.values = primaryOption.values.filter((value) => {
@@ -18,7 +19,7 @@ const multipleOptionsProduct = (product) => {
     return false;
   });
 
-  createMultipleOptionsDOM(row[product.id], primaryOption, secondaryOption, product, (row[product.id].classList.contains("has-img") || row[product.id].classList.contains("has-img-desktop")));
+  createMultipleOptionsDOM(currentRow, primaryOption, secondaryOption, product, (currentRow.classList.contains("has-img") || currentRow.classList.contains("has-img-desktop")));
 
   return true;
 };

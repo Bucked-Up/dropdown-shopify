@@ -1,15 +1,28 @@
 import { createButton, createVariantsWrapper } from "./domElements.js";
 
+const checkIfLastVariantHasStock = (variant,button,wrapper) =>{
+  if(!variant.availableForSale){
+    button.toggleAttribute("disabled")
+    wrapper.classList.add("no-stock-filter")
+    lastVariantElements.forEach(id=>{
+      document.querySelector(id).classList.add("no-stock-filter")
+    })
+  } 
+}
+
 const normalProduct = (product) => {
-  const hasImg = row[product.id].classList.contains("has-img") || row[product.id].classList.contains("has-img-desktop")
-  const [variantsWrapper, dropdownMobile, dropdownImg] = createVariantsWrapper(row[product.id], product.variants, hasImg)
-  product.variants.forEach((variant,i) => {
-    console.log(i)
+  const currentRow = row[product.id]
+  const hasImg = currentRow.classList.contains("has-img") || currentRow.classList.contains("has-img-desktop")
+  const [variantsWrapper, dropdownMobile, dropdownImg] = createVariantsWrapper(currentRow, product.variants, hasImg)
+  product.variants.forEach((variant) => {
     const [wrapper, button] = createButton(product.id, variant.id, variant.title, hasImg, variant.image.src, variant.price.amount)
-    if(row[product.id].classList.contains("move-last-variant") && i == product.variants.length - 1){
+
+    if(currentRow.classList.contains("move-last-variant") && variant["last-variant"]){
       document.querySelector(`.last-variant.prod-${product.id}`).appendChild(wrapper)
+      checkIfLastVariantHasStock(variant,button,wrapper)
     }else
       variantsWrapper.appendChild(wrapper)
+
     if (dropdownMobile)
       button.addEventListener("change", () => {
         if (button.checked)

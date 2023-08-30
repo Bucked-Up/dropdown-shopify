@@ -13,6 +13,7 @@ const hiddenProducts = [] //only works if isKit = false
 const isKit = true;
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
+const lastVariantElements = ["#test1","#test2"] //for when last variant is moved.
 
 //CHANGE ONLY WHAT IS SAID TO CHANGE.
 const setDataLayer = (event, action, value, currency = undefined) => {
