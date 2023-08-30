@@ -183,6 +183,11 @@
     }
   }
   @media (max-width: 767px) {
+    &.has-dropdown.has-img-desktop{
+      img{
+        display: none;
+      }
+    }
     &.has-dropdown-mobile {
       img {
         display: none;

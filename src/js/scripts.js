@@ -6,11 +6,11 @@ import buy from "./modules/buy.js";
 
 let globalData = [];
 
-const main = async () =>{
+const main = async () => {
   toggleLoading();
+  dataLayerStart();
   globalData = await fetchProduct({ ids: productsID, isHidden: false });
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
-  toggleLoading();
   globalData.push(...hiddenProductsData)
   const noStock = (el) => !el.availableForSale;
   if (globalData.some(noStock)) {
@@ -41,7 +41,7 @@ const main = async () =>{
           buy(globalData);
       });
     });
+  toggleLoading();
 }
 
-dataLayerStart();
 main();

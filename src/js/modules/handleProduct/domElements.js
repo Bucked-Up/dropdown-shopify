@@ -1,3 +1,22 @@
+const createDropdown = (values) => {
+  const dropdown = document.createElement("div");
+  const p = document.createElement("p");
+  const svg = '<svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5981 15.5C11.4434 17.5 8.55662 17.5 7.40192 15.5L1.33975 5C0.185047 3 1.62842 0.499998 3.93782 0.499998L16.0622 0.499999C18.3716 0.5 19.815 3 18.6603 5L12.5981 15.5Z" fill="black"/></svg>'
+  dropdown.setAttribute("role", "button");
+  dropdown.classList.add("dropdown-mobile")
+  p.innerHTML = values[0].title || values[0];
+  dropdown.appendChild(p)
+  dropdown.insertAdjacentHTML('beforeend', svg)
+  dropdown.addEventListener("click", () => {
+    dropdown.classList.toggle("active");
+  })
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target))
+      dropdown.classList.remove("active")
+  })
+  return dropdown
+}
+
 const createButton = (productId, variantId, text, hasImg, src = "", variantPrice = "") => {
   const wrapper = document.createElement("div");
   let img
@@ -52,34 +71,97 @@ const createVariantsWrapper = (element, values, hasImg) => {
   variantsWrapper.classList.add("variants-wrapper")
   let dropdown = undefined;
   if (element.classList.contains("has-dropdown-mobile") || element.classList.contains("has-dropdown")) {
-    dropdown = document.createElement("div");
-    const p = document.createElement("p");
-    const svg = '<svg width="16" height="13" viewBox="0 0 16 13" xmlns="http://www.w3.org/2000/svg"><path d="M9.73195 12C8.96215 13.3333 7.03765 13.3333 6.26785 12L1.0717 3C0.3019 1.66667 1.26415 5.61387e-07 2.80375 6.95983e-07L13.1961 1.60451e-06C14.7357 1.7391e-06 15.6979 1.66667 14.9281 3L9.73195 12Z"/></svg>'
-    dropdown.setAttribute("role", "button");
-    dropdown.classList.add("dropdown-mobile")
-    p.innerHTML = values[0].title;
-    dropdown.appendChild(p)
-    dropdown.insertAdjacentHTML('beforeend', svg)
+    dropdown = createDropdown(values)
     element.appendChild(dropdown)
-    dropdown.addEventListener("click", () => {
-      dropdown.classList.toggle("active");
-    })
-    document.addEventListener("click", (e) => {
-      if (!dropdown.contains(e.target))
-        dropdown.classList.remove("active")
-    })
   }
   element.appendChild(variantsWrapper)
   return [variantsWrapper, dropdown, dropdownImg];
 }
 
-const updateImageMultiple = (product, title, img) => {
-  for (let variant of product.variants) {
-    if (variant.title.includes(title)) {
-      img.src = variant.image.src;
-      return;
-    }
-  }
-};
+const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, product, hasImg) => {
 
-export { createButton, createVariantsWrapper, updateImageMultiple };
+  const updateSizes = (optionId, secondaryWrapper, secondarySelected, primarySelected) => {
+    secondaryWrapper.innerHTML = ""
+    product.variants.forEach(variant => {
+      const newValue = variant.selectedOptions[1].value
+      if (variant.title.includes(primarySelected) && !secondaryWrapper.innerHTML.includes(newValue)) {
+        const button = createButton(optionId, newValue, newValue, false)[0]
+        secondaryWrapper.appendChild(button)
+        button.querySelector("input").addEventListener("change", (e) => {
+          if (e.target.checked)
+            secondarySelected.innerHTML = e.target.getAttribute("label-text")
+        })
+      }
+    })
+
+    const inputs = secondaryWrapper.querySelectorAll("input")
+    inputs[0].checked = true
+    inputs.forEach(input => {
+      input.setAttribute("is", "secondary")
+    })
+    secondarySelected.innerHTML = inputs[0].value
+  }
+
+  const updateImageMultiple = (product, title, img) => {
+    for (let variant of product.variants) {
+      if (variant.title.includes(title)) {
+        img.src = variant.image.src;
+        return;
+      }
+    }
+  };
+
+  let img
+  if (hasImg) {
+    img = document.createElement("img")
+    img.classList.add("dropdown-img")
+    updateImageMultiple(product, product.variants[0].title, img)
+    element.appendChild(img)
+  }
+
+  const createVariantWrapper = (option, isPrimary = false) => {
+    const variantsWrapper = document.createElement("div")
+    variantsWrapper.classList.add("variants-wrapper")
+    const dropdown = createDropdown(option.values)
+    const selectedText = dropdown.querySelector("p")
+    element.appendChild(dropdown)
+    element.appendChild(variantsWrapper)
+    option.values.forEach(value => {
+      const [wrapper, button] = createButton(option.id, value, value, false)
+      variantsWrapper.appendChild(wrapper)
+      button.addEventListener("change", () => {
+        if (button.checked)
+          selectedText.innerHTML = button.getAttribute("label-text")
+      })
+    })
+    const inputs = variantsWrapper.querySelectorAll("input")
+    inputs[0].checked = true
+    if (isPrimary) {
+      inputs.forEach(input => {
+        input.setAttribute("is", "primary")
+      })
+      return [variantsWrapper, selectedText]
+    }
+    inputs.forEach(input => {
+      input.setAttribute("is", "secondary")
+    })
+    return [variantsWrapper, selectedText]
+  }
+
+
+  const [primaryVariantsWrapper] = createVariantWrapper(primaryOption, true)
+  const [secondaryVariantsWrapper, secondarySelectedText] = createVariantWrapper(secondaryOption)
+
+  primaryVariantsWrapper.querySelectorAll("input").forEach(input => {
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        if (hasImg) {
+          updateImageMultiple(product, input.value, img);
+        }
+        updateSizes(secondaryOption.id, secondaryVariantsWrapper, secondarySelectedText, input.value)
+      }
+    })
+  })
+}
+
+export { createButton, createVariantsWrapper, createMultipleOptionsDOM };
