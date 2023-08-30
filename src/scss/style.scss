@@ -73,6 +73,8 @@
       transform: rotate(0.5turn);
     }
     @media (max-width: 767px) {
+      font-size: 0.8125rem;
+      padding: 0.9375rem 1.44rem;
       display: flex;
       & + div {
         max-height: 0;
@@ -126,6 +128,10 @@
       font-weight: 900;
       border: 0.0994rem solid #e2e2e2;
       padding: 0.88rem 1rem;
+      @media (max-width: 767px) {
+        font-size: 0.8125rem;
+        padding: 0.9375rem 1.44rem;
+      }
       .label-ball {
         display: flex;
         flex-shrink: 0;
