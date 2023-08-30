@@ -54,7 +54,7 @@ const createVariantsWrapper = (element, values, hasImg) => {
   if (element.classList.contains("has-dropdown-mobile") || element.classList.contains("has-dropdown")) {
     dropdown = document.createElement("div");
     const p = document.createElement("p");
-    const svg = '<svg width="20" height="17" viewBox="0 0 20 17" xmlns="http://www.w3.org/2000/svg"><path d="M12.5981 15.5C11.4434 17.5 8.55662 17.5 7.40192 15.5L1.33975 5C0.185047 3 1.62842 0.499998 3.93782 0.499998L16.0622 0.499999C18.3716 0.5 19.815 3 18.6603 5L12.5981 15.5Z"/></svg>'
+    const svg = '<svg width="16" height="13" viewBox="0 0 16 13" xmlns="http://www.w3.org/2000/svg"><path d="M9.73195 12C8.96215 13.3333 7.03765 13.3333 6.26785 12L1.0717 3C0.3019 1.66667 1.26415 5.61387e-07 2.80375 6.95983e-07L13.1961 1.60451e-06C14.7357 1.7391e-06 15.6979 1.66667 14.9281 3L9.73195 12Z"/></svg>'
     dropdown.setAttribute("role", "button");
     dropdown.classList.add("dropdown-mobile")
     p.innerHTML = values[0].title;
