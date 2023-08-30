@@ -5,7 +5,7 @@ import buy from "./modules/buy.js";
 
 let globalData = [];
 
-window.onload = async () => {
+const main = async () =>{
   globalData = await fetchProduct({ ids: productsID, isHidden: false });
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
   globalData.push(...hiddenProductsData)
@@ -38,6 +38,7 @@ window.onload = async () => {
           buy(globalData);
       });
     });
-};
+}
 
 dataLayerStart();
+main();
