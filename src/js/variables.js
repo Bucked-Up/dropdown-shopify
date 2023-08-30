@@ -9,4 +9,4 @@ const apiOptions = {
   },
 };
 
-export {apiOptions, fetchUrl}
+export { apiOptions, fetchUrl }

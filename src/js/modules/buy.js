@@ -2,28 +2,28 @@ import toggleButton from "./toggleButton.js";
 import { fetchUrl, apiOptions } from "../variables.js";
 import toggleLoading from "./toggleLoading.js";
 
-const getVariantId = (data) =>{
-  if(data.isHidden)
+const getVariantId = (data) => {
+  if (data.isHidden)
     return data.variants[0].id
   let variantId
   const multipleWrapper = document.querySelector(`[multiple="${data.id}"]`)
-  if(multipleWrapper){
-    const primary = Array.from(multipleWrapper.querySelectorAll("[is='primary']")).filter(el=>el.checked)[0]
-    const secondary = Array.from(multipleWrapper.querySelectorAll("[is='secondary']")).filter(el=>el.checked)[0]
-    variantId = data.variants.filter(variant=>(variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
+  if (multipleWrapper) {
+    const primary = Array.from(multipleWrapper.querySelectorAll("[is='primary']")).filter(el => el.checked)[0]
+    const secondary = Array.from(multipleWrapper.querySelectorAll("[is='secondary']")).filter(el => el.checked)[0]
+    variantId = data.variants.filter(variant => (variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
   }
-  else{
-    const input = Array.from(document.querySelectorAll(`[name="${data.id}"]`)).filter(el=>el.checked)[0]
+  else {
+    const input = Array.from(document.querySelectorAll(`[name="${data.id}"]`)).filter(el => el.checked)[0]
     variantId = input.value;
   }
   return variantId
 }
 
-const addDiscount = async (checkoutId) =>{
+const addDiscount = async (checkoutId) => {
   const input = {
     "checkoutId": checkoutId,
     "discountCode": discountCode
-  }  
+  }
   const query = `
     mutation checkoutDiscountCodeApplyV2($checkoutId: ID!, $discountCode: String!) {
       checkoutDiscountCodeApplyV2(checkoutId: $checkoutId, discountCode: $discountCode) {
@@ -48,7 +48,7 @@ const addDiscount = async (checkoutId) =>{
 //updates order
 const buy = async (data) => {
   toggleLoading();
-  if(!isKit)
+  if (!isKit)
     buyButton.forEach((btnArray) => {
       toggleButton(btnArray);
     });
@@ -62,27 +62,27 @@ const buy = async (data) => {
   if (data == null) {
     return;
   }
-  
+
   const variantId = []
-  
-  if(isKit){
-    data.forEach(product=>{
+
+  if (isKit) {
+    data.forEach(product => {
       variantId.push(getVariantId(product))
     })
   }
   else
     variantId.push(getVariantId(data))
 
-  const obj = variantId.map(id=>{return {"variantId": id,"quantity": 1}})
-  const input = 
-    {
-      "input":{
-        "lineItems": [
-          ...obj
-        ]
-      }
+  const obj = variantId.map(id => { return { "variantId": id, "quantity": 1 } })
+  const input =
+  {
+    "input": {
+      "lineItems": [
+        ...obj
+      ]
     }
-  ;
+  }
+    ;
   const query = `
     mutation checkoutCreate($input: CheckoutCreateInput!) {
       checkoutCreate(input: $input) {
@@ -104,11 +104,11 @@ const buy = async (data) => {
       body: JSON.stringify(body),
     });
     const responseLog = await response.json();
-    if(!response.ok)
+    if (!response.ok)
       throw new Error("Api Error.")
-    if(discountCode !== ""){
+    if (discountCode !== "") {
       const responseDiscount = await addDiscount(responseLog.data.checkoutCreate.checkout.id)
-      if(!responseDiscount.ok)
+      if (!responseDiscount.ok)
         throw new Error("Api Discount Error.")
     }
     dataLayerRedirect()

@@ -20,17 +20,17 @@
   }
 }
 
-body:not(.loading){
-  .loading-screen{
+body:not(.loading) {
+  .loading-screen {
     display: none;
   }
 }
 
 @keyframes scaleUp {
-  0%{
+  0% {
     transform: scale(1);
   }
-  100%{
+  100% {
     transform: scale(1.5);
   }
 }

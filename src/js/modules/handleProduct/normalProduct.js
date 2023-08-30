@@ -1,13 +1,13 @@
 import { createButton, createVariantsWrapper } from "./domElements.js";
 
-const checkIfLastVariantHasStock = (variant,button,wrapper) =>{
-  if(!variant.availableForSale){
+const checkIfLastVariantHasStock = (variant, button, wrapper) => {
+  if (!variant.availableForSale) {
     button.toggleAttribute("disabled")
     wrapper.classList.add("no-stock-filter")
-    lastVariantElements.forEach(id=>{
+    lastVariantElements.forEach(id => {
       document.querySelector(id).classList.add("no-stock-filter")
     })
-  } 
+  }
 }
 
 const normalProduct = (product) => {
@@ -17,10 +17,10 @@ const normalProduct = (product) => {
   product.variants.forEach((variant) => {
     const [wrapper, button] = createButton(product.id, variant.id, variant.title, hasImg, variant.image.src, variant.price.amount)
 
-    if(currentRow.classList.contains("move-last-variant") && variant["last-variant"]){
+    if (currentRow.classList.contains("move-last-variant") && variant["last-variant"]) {
       document.querySelector(`.last-variant.prod-${product.id}`).appendChild(wrapper)
-      checkIfLastVariantHasStock(variant,button,wrapper)
-    }else
+      checkIfLastVariantHasStock(variant, button, wrapper)
+    } else
       variantsWrapper.appendChild(wrapper)
 
     if (dropdownMobile)
@@ -32,7 +32,7 @@ const normalProduct = (product) => {
       button.addEventListener("change", () => {
         if (button.checked)
           dropdownImg.src = variant.image.src
-          dropdownImg.alt = variant.title
+        dropdownImg.alt = variant.title
       })
   });
   variantsWrapper.querySelector("input").checked = true
