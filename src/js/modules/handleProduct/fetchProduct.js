@@ -59,10 +59,18 @@ const fetchProduct = async ({ids,isHidden}) => {
       obj.id = obj.id.split("/")
       obj.id = obj.id[obj.id.length - 1]
       obj.variants = obj.variants.edges.filter(edge=>edge.node.availableForSale);
+      let minPrice = 99999;
       for (let key in obj.variants){
         obj.variants[key] = obj.variants[key].node;
         obj.variants[key].title = obj.variants[key].title.split("(")[0]
+        if(obj.variants[key].price.amount < minPrice) minPrice = obj.variants[key].price.amount
       } 
+      for (let key in obj.variants){
+        if(obj.variants[key].price.amount > minPrice){
+          const string = `(+$${(obj.variants[key].price.amount - minPrice).toFixed(2)})`
+          obj.variants[key].title = obj.variants[key].title + string
+        }
+      }
     });
     toggleLoading()
     return data
