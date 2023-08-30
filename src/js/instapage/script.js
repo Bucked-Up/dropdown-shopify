@@ -8,7 +8,7 @@ localStorage.setItem("first_page", origin);
 
 urlParams.set("utm_source", "");
 
-const productsID = [8658966905138,8658983387442,8658975129906]; //ID of each the product
+const productsID = [8658983387442]; //ID of each the product
 const hiddenProducts = [] //only works if isKit = false
 const isKit = true;
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).

@@ -59,7 +59,10 @@ const fetchProduct = async ({ids,isHidden}) => {
       obj.id = obj.id.split("/")
       obj.id = obj.id[obj.id.length - 1]
       obj.variants = obj.variants.edges.filter(edge=>edge.node.availableForSale);
-      for (let key in obj.variants) obj.variants[key] = obj.variants[key].node;
+      for (let key in obj.variants){
+        obj.variants[key] = obj.variants[key].node;
+        obj.variants[key].title = obj.variants[key].title.split("(")[0]
+      } 
     });
     toggleLoading()
     return data
