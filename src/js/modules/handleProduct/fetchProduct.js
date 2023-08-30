@@ -1,7 +1,5 @@
-import toggleLoading from "../toggleLoading.js";
 import { apiOptions, fetchUrl } from "../../variables.js";
 const fetchProduct = async ({ids,isHidden}) => {
-  toggleLoading();
   const query = `
   { 
     nodes(ids: [${ids.map((id) => `"gid://shopify/Product/${id}"`)}]) {
@@ -72,7 +70,6 @@ const fetchProduct = async ({ids,isHidden}) => {
         }
       }
     });
-    toggleLoading()
     return data
   }catch(error){
     alert("Product not found.")

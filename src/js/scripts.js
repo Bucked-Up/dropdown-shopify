@@ -1,13 +1,16 @@
 import fetchProduct from "./modules/handleProduct/fetchProduct.js";
 import normalProduct from "./modules/handleProduct/normalProduct.js";
 import multipleOptionsProduct from "./modules/handleProduct/multipleOptionsProduct.js";
+import toggleLoading from "./modules/toggleLoading.js";
 import buy from "./modules/buy.js";
 
 let globalData = [];
 
 const main = async () =>{
+  toggleLoading();
   globalData = await fetchProduct({ ids: productsID, isHidden: false });
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
+  toggleLoading();
   globalData.push(...hiddenProductsData)
   const noStock = (el) => !el.availableForSale;
   if (globalData.some(noStock)) {
