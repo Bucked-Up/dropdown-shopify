@@ -56,7 +56,7 @@ const fetchProduct = async ({ ids, isHidden }) => {
         obj.isHidden = true
       obj.id = obj.id.split("/").slice(-1)[0]
 
-      if (row[obj.id].classList.contains("move-last-variant"))
+      if (row[obj.id]?.classList.contains("move-last-variant"))
         obj.variants.edges.slice(-1)[0].node["last-variant"] = true
 
       obj.variants = obj.variants.edges.filter(edge => (edge.node.availableForSale || (!edge.node.availableForSale && edge.node["last-variant"])));
