@@ -6,6 +6,22 @@ import buy from "./modules/buy.js";
 
 let globalData = [];
 
+buyButtonsIds.forEach((ids) => {
+  let buttons = [];
+  if (!isKit) {
+    ids.forEach((id) => {
+      buttons.push(document.querySelector(id));
+    });
+    buyButton.push(buttons);
+  }
+  else
+    buyButton.push(document.querySelector(ids))
+});
+
+productsID.forEach((id) => {
+  row[id] = document.querySelector(`.products-list.prod-${id}`);
+});
+
 const main = async () => {
   toggleLoading();
   dataLayerStart();

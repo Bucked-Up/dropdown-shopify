@@ -14,27 +14,6 @@ const isKit = true;
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
 
-//DONT CHANGE
-const buyButton = [];
-
-buyButtonsIds.forEach((ids) => {
-  let buttons = [];
-  if (!isKit) {
-    ids.forEach((id) => {
-      buttons.push(document.querySelector(id));
-    });
-    buyButton.push(buttons);
-  }
-  else
-    buyButton.push(document.querySelector(ids))
-});
-
-const row = {};
-productsID.forEach((id) => {
-  row[id] = document.querySelector(`.products-list.prod-${id}`);
-});
-//CHANGE FROM HERE UNTILL COMMENT SAYING TO STOP.
-
 //CHANGE ONLY WHAT IS SAID TO CHANGE.
 const setDataLayer = (event, action, value, currency = undefined) => {
   window.dataLayer = window.dataLayer || [];
@@ -57,3 +36,6 @@ const dataLayerStart = () => {
 const dataLayerRedirect = () => {
   setDataLayer((event = "offerview"), (action = "viewaction"), (value = 0));
 };
+
+const buyButton = [];
+const row = {};

@@ -44,32 +44,10 @@
   urlParams.set("utm_source", "");
 
   const productsID = [999,999]; //ID of each the product
-  const hiddenProducts = [9999,9999] //only works if isKit = false
+  const hiddenProducts = [999,999] //only works if isKit = true
   const isKit = true;
-  //if isKit false, array of arrays.
-  const buyButtonsIds = ["#element-35"];
+  const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
   const discountCode = ""
-
-  //DONT CHANGE
-  const buyButton = [];
-
-  buyButtonsIds.forEach((ids) => {
-    let buttons = [];
-    if(!isKit){
-      ids.forEach((id) => {
-        buttons.push(document.querySelector(id));
-      });
-      buyButton.push(buttons);
-    }
-    else
-      buyButton.push(document.querySelector(ids))
-  });
-
-  const row = {};
-  productsID.forEach((id) => {
-    row[id] = document.querySelector(`.products-list.prod-${id}`);
-  });
-  //CHANGE FROM HERE UNTILL COMMENT SAYING TO STOP.
 
   //CHANGE ONLY WHAT IS SAID TO CHANGE.
   const setDataLayer = (event, action, value, currency = undefined) => {
@@ -93,11 +71,10 @@
   const dataLayerRedirect = () => {
     setDataLayer((event = "offerview"), (action = "viewaction"), (value = 0));
   };
-</script>
-```
 
-### 4. Place this after the previous code:
-```
+  const buyButton = [];
+  const row = {};
+</script>
 <script src="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/js/scripts.js" type="module"></script>
 ```
 
