@@ -30,6 +30,14 @@
 
 5. no-name-mobile: will remove the name from the button on mobile
 
+6. move-last-variant: will move the last variant to a separete html block
+
+```
+<div class="last-variant 999">
+
+</div>
+```
+
 ### 3. Place this code and change as necessary into html/css footer
 ```
 <script>

@@ -1,11 +1,11 @@
 @import "./custom-select";
 @import "./loading-screen";
 
-// :root {
-//   --primary: #ff2321;
-//   --secondary: #ffe3e3;
-//   --text-color: black;
-// }
+:root {
+  --primary: #ff2321;
+  --secondary: #ffe3e3;
+  --text-color: black;
+}
 
 @mixin buttonStyle() {
   user-select: none;
@@ -16,7 +16,17 @@
   border-radius: 100px;
 }
 
-.products-list {
+@mixin removeName() {
+  padding: 1rem;
+  border-radius: 100%;
+  width: fit-content;
+  margin: 0 auto;
+  .label-text {
+    display: none;
+  }
+}
+
+.products-list,.last-variant {
   text-transform: uppercase !important;
   &,
   * {
@@ -150,6 +160,9 @@
       }
     }
   }
+  &.last-variant .label{
+    @include removeName();
+  }
   .dropdown-img {
     display: none;
     width: 100%;
@@ -183,8 +196,8 @@
     }
   }
   @media (max-width: 767px) {
-    &.has-dropdown.has-img-desktop{
-      img{
+    &.has-dropdown.has-img-desktop {
+      img {
         display: none;
       }
     }
@@ -192,7 +205,7 @@
       img {
         display: none;
       }
-      &:not(.has-img-desktop){
+      &:not(.has-img-desktop) {
         .dropdown-img {
           display: block;
         }
@@ -205,13 +218,7 @@
     }
     &.no-name-mobile:not(.has-dropdown-mobile) {
       .label {
-        padding: 1rem;
-        border-radius: 100%;
-        width: fit-content;
-        margin: 0 auto;
-        .label-text {
-          display: none;
-        }
+        @include removeName();
       }
     }
   }
