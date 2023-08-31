@@ -35,7 +35,8 @@ const normalProduct = (product) => {
         dropdownImg.alt = variant.title
       })
   });
-  variantsWrapper.querySelector("input").checked = true
+  if (!currentRow.hasAttribute("dropdown-text"))
+    variantsWrapper.querySelector("input").checked = true
   return true;
 };
 

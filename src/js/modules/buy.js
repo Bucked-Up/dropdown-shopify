@@ -14,6 +14,7 @@ const getVariantId = (data) => {
   }
   else {
     const input = Array.from(document.querySelectorAll(`[name="${data.id}"]`)).filter(el => el.checked)[0]
+    if (!input) return false
     variantId = input.value;
   }
   return variantId
@@ -47,13 +48,6 @@ const addDiscount = async (checkoutId) => {
 
 //updates order
 const buy = async (data) => {
-  toggleLoading();
-  if (!isKit)
-    buyButton.forEach((btnArray) => {
-      toggleButton(btnArray);
-    });
-  else
-    toggleButton(buyButton)
   //if equals 0, then the data hasnt been fetched yet.
   if (data.length === 0) {
     return;
@@ -66,12 +60,24 @@ const buy = async (data) => {
   const variantId = []
 
   if (isKit) {
-    data.forEach(product => {
+    for (let product of data) {
+      const currentVariant = getVariantId(product)
+      if (!currentVariant) return;
       variantId.push(getVariantId(product))
-    })
+    }
   }
-  else
+  else {
+    const currentVariant = getVariantId(product)
+    if (!currentVariant) return;
     variantId.push(getVariantId(data))
+  }
+  toggleLoading();
+  if (!isKit)
+    buyButton.forEach((btnArray) => {
+      toggleButton(btnArray);
+    });
+  else
+    toggleButton(buyButton)
 
   const obj = variantId.map(id => { return { "variantId": id, "quantity": 1 } })
   const input =
