@@ -19,7 +19,7 @@
 </div>
 ```
 
-### 2.5. The div can have the following classes:
+### 2.1. The div can have the following classes:
 1. has-dropdown: will be a dropdown
 
 2. has-dropdown-mobile: will be dropdown only on mobile
@@ -37,6 +37,9 @@
 
 </div>
 ```
+
+### 2.2. The div can have the following attributes:
+1. dropdown-text: there wont be a selected variant from the start.
 
 ### 3. Place this code and change as necessary into html/css footer
 ```
