@@ -1,8 +1,8 @@
 @import "./loading-screen";
 
 // :root {
-//   --primary: #ff2321;
-//   --secondary: #ffe3e3;
+//   --primary: #0038FF;
+//   --secondary: #E3F5FF;
 //   --text-color: black;
 // }
 
@@ -77,9 +77,9 @@
     border: 1.549px solid var(--primary);
     background: var(--secondary);
     display: none;
-    .placeholder-text{
+    .placeholder-text {
       font-weight: 700;
-      color: #4B4B4B;
+      color: #4b4b4b;
     }
     svg {
       flex-shrink: 0;
@@ -237,4 +237,32 @@
 
 .btn-lock {
   cursor: not-allowed !important;
+}
+
+.shake {
+  *[dropdown-text] {
+    animation: 0.3s forwards tilt-shaking;
+    .dropdown-mobile {
+      background-color: #ffe3e3;
+      border-color: #ff2321;
+    }
+  }
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
