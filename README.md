@@ -9,6 +9,10 @@
     --secondary: #ffe3e3;
     --text-color: black;
   }
+  //if dropdowns, put the id of each dropdown html block.
+  #element-ex,#element-ex1{
+    max-height: 2.9456rem !important;
+  }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/scss/style.css" />
 ```
@@ -33,7 +37,7 @@
 6. move-last-variant: will move the last variant to a separete html block
 
 ```
-<div class="last-variant 999">
+<div class="last-variant prod-999">
 
 </div>
 ```
