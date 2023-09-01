@@ -17,7 +17,7 @@ const createDropdown = (values, hasText = false) => {
   return dropdown
 }
 
-const createButton = (productId, variantId, text, hasImg, src = "", variantPrice = "") => {
+const createButton = ({productId, variantId, text, hasImg, src = "", variantPrice = "", plusPrice = undefined}) => {
   const wrapper = document.createElement("div");
   let img
   if (hasImg) {
@@ -53,6 +53,12 @@ const createButton = (productId, variantId, text, hasImg, src = "", variantPrice
   button.setAttribute("label-text", text);
   button.type = "radio";
   button.setAttribute("hidden", "");
+  if(plusPrice){
+    const labelPrice = document.createElement("span");
+    labelPrice.classList.add("label-price")
+    labelPrice.innerHTML = plusPrice
+    labelText.appendChild(labelPrice)
+  }
 
   return [wrapper, button];
 };
@@ -81,17 +87,24 @@ const createVariantsWrapper = (element, values, hasImg) => {
 
 const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, product, hasImg) => {
 
-  const updateSizes = (optionId, secondaryWrapper, secondarySelected, primarySelected) => {
+  const getNewName = (value) =>{
+    switch (value) {
+      case "Small": return "S";
+      case "Medium": return "M";
+      case "Large": return "L";
+      case "X-Large": return "XL";
+      case "2XL": return "XXL";
+      default: return value;
+    }
+  }
+
+  const updateSizes = (optionId, secondaryWrapper, primarySelected) => {
     secondaryWrapper.innerHTML = ""
     product.variants.forEach(variant => {
       const newValue = variant.selectedOptions[1].value
       if (variant.title.includes(primarySelected) && !secondaryWrapper.innerHTML.includes(newValue)) {
-        const button = createButton(optionId, newValue, newValue, false)[0]
+        const button = createButton({productId: optionId, variantId: newValue, text: getNewName(newValue), hasImg: false})[0]
         secondaryWrapper.appendChild(button)
-        button.querySelector("input").addEventListener("change", (e) => {
-          if (e.target.checked)
-            secondarySelected.innerHTML = e.target.getAttribute("label-text")
-        })
       }
     })
 
@@ -120,7 +133,31 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     element.appendChild(img)
   }
 
-  const createVariantWrapper = (option, isPrimary = false) => {
+  const findPlusPrice = (value,variants) => {
+    for (let variant of variants) {
+      if (variant.title.includes(value))
+        return variant.title.split("(")[1]?.split(")")[0]
+    }
+  }
+
+  const createTshirtSizesWrapper = (option, { variants }) => {
+    const variantsWrapper = document.createElement("div")
+    variantsWrapper.classList.add("sizes-wrapper")
+    element.appendChild(variantsWrapper)
+    option.values.forEach(value => {
+      let plusPrice = findPlusPrice(value,variants)
+      const [wrapper] = createButton({productId: option.id, variantId: value, text: getNewName(value), hasImg: false, plusPrice: plusPrice})
+      variantsWrapper.appendChild(wrapper)
+    })
+    const inputs = variantsWrapper.querySelectorAll("input")
+    inputs[0].checked = true
+    inputs.forEach(input => {
+      input.setAttribute("is", "secondary")
+    })
+    return variantsWrapper
+  }
+
+  const createPrimaryVariantWrapper = (option) => {
     const variantsWrapper = document.createElement("div")
     variantsWrapper.classList.add("variants-wrapper")
     const dropdown = createDropdown(option.values)
@@ -128,7 +165,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     element.appendChild(dropdown)
     element.appendChild(variantsWrapper)
     option.values.forEach(value => {
-      const [wrapper, button] = createButton(option.id, value, value, false)
+      const [wrapper, button] = createButton({productId: option.id, variantId: value, text: value, hasImg: false})
       variantsWrapper.appendChild(wrapper)
       button.addEventListener("change", () => {
         if (button.checked)
@@ -137,21 +174,15 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     })
     const inputs = variantsWrapper.querySelectorAll("input")
     inputs[0].checked = true
-    if (isPrimary) {
-      inputs.forEach(input => {
-        input.setAttribute("is", "primary")
-      })
-      return [variantsWrapper, selectedText]
-    }
     inputs.forEach(input => {
-      input.setAttribute("is", "secondary")
+      input.setAttribute("is", "primary")
     })
     return [variantsWrapper, selectedText]
   }
 
 
-  const [primaryVariantsWrapper] = createVariantWrapper(primaryOption, true)
-  const [secondaryVariantsWrapper, secondarySelectedText] = createVariantWrapper(secondaryOption)
+  const [primaryVariantsWrapper] = createPrimaryVariantWrapper(primaryOption, true)
+  const secondaryVariantsWrapper = createTshirtSizesWrapper(secondaryOption, product)
 
   primaryVariantsWrapper.querySelectorAll("input").forEach(input => {
     input.addEventListener("change", () => {
@@ -159,7 +190,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
         if (hasImg) {
           updateImageMultiple(product, input.value, img);
         }
-        updateSizes(secondaryOption.id, secondaryVariantsWrapper, secondarySelectedText, input.value)
+        updateSizes(secondaryOption.id, secondaryVariantsWrapper, input.value)
       }
     })
   })

@@ -1,8 +1,8 @@
 @import "./loading-screen";
 
 // :root {
-//   --primary: #0038FF;
-//   --secondary: #E3F5FF;
+//   --primary: #0038ff;
+//   --secondary: #e3f5ff;
 //   --text-color: black;
 // }
 
@@ -168,6 +168,47 @@
           height: 0.75rem;
           margin: auto;
           border-radius: 50%;
+        }
+      }
+    }
+  }
+  .sizes-wrapper {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    margin-top: 1rem;
+    gap:0.44rem;
+    .button-wrapper {
+      .label-ball {
+        display: none;
+      }
+      .label {
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        justify-content: center;
+        text-align: center;
+        background-color: #ececec;
+        border-color: #ececec;
+        border-width: 2px;
+        .label-text {
+          position: relative;
+          font-size: 1.5625rem;
+          font-weight: 700;
+          .label-price {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #000;
+            font-size: 0.39606rem;
+            font-weight: 300;
+          }
+        }
+      }
+      input:checked + label .label {
+        border-color: var(--primary);
+        background-color: var(--secondary);
+        .label-ball:after {
+          background-color: var(--primary);
         }
       }
     }
