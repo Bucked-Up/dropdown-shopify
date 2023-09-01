@@ -9,7 +9,7 @@
     --secondary: #ffe3e3;
     --text-color: black;
   }
-  //if dropdowns, put the id of each dropdown html block.
+  /*if dropdowns, put the id of each dropdown html block.*/
   #element-ex,#element-ex1{
     max-height: 2.9456rem !important;
   }

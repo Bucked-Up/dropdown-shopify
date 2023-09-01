@@ -7,11 +7,12 @@ const createDropdown = (values, hasText = false) => {
   p.innerHTML = hasText && `<span class="placeholder-text">${hasText}</span>` || values[0].title || values[0];
   dropdown.appendChild(p)
   dropdown.insertAdjacentHTML('beforeend', svg)
-  dropdown.addEventListener("click", () => {
-    dropdown.classList.toggle("active");
+  dropdown.addEventListener("click", (e) => {
+    if(e.target.tagName !== "INPUT")
+      dropdown.classList.toggle("active");
   })
   document.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target))
+    if (!dropdown.contains(e.target) || e.target.tagName === "INPUT")
       dropdown.classList.remove("active")
   })
   return dropdown
@@ -162,7 +163,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     const dropdown = createDropdown(option.values)
     const selectedText = dropdown.querySelector("p")
     element.appendChild(dropdown)
-    element.appendChild(variantsWrapper)
+    dropdown.appendChild(variantsWrapper)
     option.values.forEach(value => {
       const [wrapper, button] = createButton({productId: option.id, variantId: value, text: value, hasImg: false})
       variantsWrapper.appendChild(wrapper)
