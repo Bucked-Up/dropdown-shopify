@@ -162,7 +162,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     const dropdown = createDropdown(option.values)
     const selectedText = dropdown.querySelector("p")
     element.appendChild(dropdown)
-    element.appendChild(variantsWrapper)
+    dropdown.appendChild(variantsWrapper)
     option.values.forEach(value => {
       const [wrapper, button] = createButton({productId: option.id, variantId: value, text: value, hasImg: false})
       variantsWrapper.appendChild(wrapper)
