@@ -65,6 +65,7 @@
   }
   .dropdown-mobile {
     @include buttonStyle();
+    position: relative;
     justify-content: space-between;
     color: #000;
     font-size: 0.87125rem;
@@ -77,6 +78,12 @@
     border: 1.549px solid var(--primary);
     background: var(--secondary);
     display: none;
+    .variants-wrapper {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      z-index: 999;
+    }
     .placeholder-text {
       font-weight: 700;
       color: #4b4b4b;
@@ -95,12 +102,12 @@
       font-size: 0.8125rem;
       padding: 0.9375rem 1.44rem;
       display: flex;
-      & + div {
+      & + .variants-wrapper {
         max-height: 0;
         overflow: hidden;
         transition: 0.3s;
       }
-      &.active + div {
+      &.active + .variants-wrapper {
         max-height: 21rem;
         padding: 0.5rem;
         overflow-y: auto;
@@ -236,12 +243,14 @@
     }
     .dropdown-mobile {
       display: flex;
-      & + div {
+      & + .variants-wrapper,
+      .variants-wrapper {
         max-height: 0;
         overflow: hidden;
         transition: 0.3s;
       }
-      &.active + div {
+      &.active + .variants-wrapper, &.active
+      .variants-wrapper {
         max-height: 21rem;
         padding: 0.5rem;
         overflow-y: auto;
