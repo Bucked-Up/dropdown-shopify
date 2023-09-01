@@ -5,12 +5,12 @@
 ```
 <style>
   :root{
-    --primary: #ff2321;
-    --secondary: #ffe3e3;
+    --primary: #0038FF;
+    --secondary: #E3F5FF;
     --text-color: black;
   }
-  /*if dropdowns, put the id of each dropdown html block.*/
-  #element-ex,#element-ex1{
+  /* if dropdowns, put the id of each dropdown html block. */
+  #element-990,#element-986{
     max-height: 2.9456rem !important;
   }
 </style>
