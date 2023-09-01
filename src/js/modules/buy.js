@@ -2,6 +2,11 @@ import toggleButton from "./toggleButton.js";
 import { fetchUrl, apiOptions } from "../variables.js";
 import toggleLoading from "./toggleLoading.js";
 
+const toggleShake = () => {
+  const body = document.querySelector("body");
+  body.classList.toggle("shake");
+}
+
 const getVariantId = (data) => {
   if (data.isHidden)
     return data.variants[0].id
@@ -62,13 +67,21 @@ const buy = async (data) => {
   if (isKit) {
     for (let product of data) {
       const currentVariant = getVariantId(product)
-      if (!currentVariant) return;
+      if (!currentVariant) {
+        alert("Select your choices")
+        toggleShake();
+        return;
+      }
       variantId.push(getVariantId(product))
     }
   }
   else {
     const currentVariant = getVariantId(product)
-    if (!currentVariant) return;
+    if (!currentVariant) {
+      alert("Select your choices")
+      toggleShake();
+      return;
+    }
     variantId.push(getVariantId(data))
   }
   toggleLoading();
