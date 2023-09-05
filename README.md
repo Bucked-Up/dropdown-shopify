@@ -23,6 +23,13 @@
 </div>
 ```
 
+### 2.0 If tshirt, place this one as well
+```
+<div class="products-list size-999">
+
+</div>
+```
+
 ### 2.1. The div can have the following classes:
 1. has-dropdown: will be a dropdown
 

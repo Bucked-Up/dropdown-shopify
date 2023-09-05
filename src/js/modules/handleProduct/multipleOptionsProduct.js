@@ -5,7 +5,7 @@ const multipleOptionsProduct = (product) => {
   const primaryOption = product.options[0];
   const secondaryOption = product.options[1];
   const currentRow = row[product.id]
-  currentRow.setAttribute("multiple", product.id)
+  currentRow.setAttribute("primary", product.id)
 
   //filtra opção primária com base em estoque
   primaryOption.values = primaryOption.values.filter((value) => {

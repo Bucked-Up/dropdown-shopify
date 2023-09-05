@@ -111,9 +111,6 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     
     const inputs = secondaryWrapper.querySelectorAll("input")
     inputs[0].checked = true
-    inputs.forEach(input => {
-      input.setAttribute("is", "secondary")
-    })
   }
 
   const updateImageMultiple = (product, title, img) => {
@@ -143,7 +140,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
   const createTshirtSizesWrapper = (option, { variants }) => {
     const variantsWrapper = document.createElement("div")
     variantsWrapper.classList.add("sizes-wrapper")
-    element.appendChild(variantsWrapper)
+    document.querySelector(`.size-${product.id}`).appendChild(variantsWrapper)
     option.values.forEach(value => {
       let plusPrice = findPlusPrice(value,variants)
       const [wrapper] = createButton({productId: option.id, variantId: value, text: getNewName(value), hasImg: false, plusPrice: plusPrice})
@@ -151,9 +148,6 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     })
     const inputs = variantsWrapper.querySelectorAll("input")
     inputs[0].checked = true
-    inputs.forEach(input => {
-      input.setAttribute("is", "secondary")
-    })
     return variantsWrapper
   }
 
@@ -174,9 +168,6 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     })
     const inputs = variantsWrapper.querySelectorAll("input")
     inputs[0].checked = true
-    inputs.forEach(input => {
-      input.setAttribute("is", "primary")
-    })
     return [variantsWrapper, selectedText]
   }
 
