@@ -57,7 +57,8 @@ const main = async () => {
     buyButton.forEach((btn) => {
       btn.addEventListener("click", () => {
         if (!btn.hasAttribute("disabled")){
-          data.push(selectedOptionalData.selected)
+          if(selectedOptionalData.selected)
+            data.push(selectedOptionalData.selected)
           buy(data);
         }
       });
