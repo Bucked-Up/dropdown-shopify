@@ -1,10 +1,10 @@
 @import "./loading-screen";
 
-// :root {
-//   --primary: #0038ff;
-//   --secondary: #e3f5ff;
-//   --text-color: black;
-// }
+:root {
+  --primary: #0038ff;
+  --secondary: #e3f5ff;
+  --text-color: black;
+}
 
 @mixin buttonStyle() {
   user-select: none;

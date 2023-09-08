@@ -29,14 +29,14 @@ const main = async () => {
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
   data.push(...hiddenProductsData)
   const optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false }) 
-  let selectedOptionalData = {selected: undefined};
+  let selectedOptionalData = {selected: optionalData[0]};
   const noStock = (el) => !el.availableForSale;
   if (data.some(noStock) || optionalData.some(noStock)) {
     alert("Product not found.");
     window.location.href = "https://buckedup.com";
     return;
   }
-  optionalProduct(optionalData,selectedOptionalData);
+  optionalProduct(optionalData[0]);
   data.filter(product => !product.isHidden).forEach((product, i) => {
     if (product.options.length > 1) {
       multipleOptionsProduct(product, i);
