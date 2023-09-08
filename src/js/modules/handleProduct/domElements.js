@@ -8,7 +8,7 @@ const createDropdown = (values, hasText = false) => {
   dropdown.appendChild(p)
   dropdown.insertAdjacentHTML('beforeend', svg)
   dropdown.addEventListener("click", (e) => {
-    if(e.target.tagName !== "INPUT")
+    if (e.target.tagName !== "INPUT")
       dropdown.classList.toggle("active");
   })
   document.addEventListener("click", (e) => {
@@ -18,7 +18,7 @@ const createDropdown = (values, hasText = false) => {
   return dropdown
 }
 
-const createButton = ({productId, variantId, text, hasImg, src = "", variantPrice = "", plusPrice = undefined}) => {
+const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   const wrapper = document.createElement("div");
   let img
   if (hasImg) {
@@ -49,12 +49,17 @@ const createButton = ({productId, variantId, text, hasImg, src = "", variantPric
   labelText.innerHTML = text;
   button.id = `${variantId}`;
   button.value = `${variantId}`;
+  button.type = "radio";
+  button.setAttribute("hidden", "");
+  return [button,wrapper]
+}
+
+const createButton = ({ productId, variantId, text, hasImg, src = "", variantPrice = "", plusPrice = undefined }) => {
+  const [button,wrapper] = createSimpleButton({hasImg: hasImg, src: src, text: text, variantId: variantId})
   button.name = productId;
   button.setAttribute("price", variantPrice);
   button.setAttribute("label-text", text);
-  button.type = "radio";
-  button.setAttribute("hidden", "");
-  if(plusPrice){
+  if (plusPrice) {
     const labelPrice = document.createElement("span");
     labelPrice.classList.add("label-price")
     labelPrice.innerHTML = plusPrice
@@ -88,7 +93,7 @@ const createVariantsWrapper = (element, values, hasImg) => {
 
 const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, product, hasImg) => {
 
-  const getNewName = (value) =>{
+  const getNewName = (value) => {
     switch (value) {
       case "Small": return "S";
       case "Medium": return "M";
@@ -104,11 +109,11 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     product.variants.forEach(variant => {
       const newValue = variant.selectedOptions[1].value
       if (variant.title.includes(primarySelected) && !secondaryWrapper.innerHTML.includes(newValue)) {
-        const button = createButton({productId: optionId, variantId: newValue, text: getNewName(newValue), hasImg: false, plusPrice: findPlusPrice(newValue, product.variants)})[0]
+        const button = createButton({ productId: optionId, variantId: newValue, text: getNewName(newValue), hasImg: false, plusPrice: findPlusPrice(newValue, product.variants) })[0]
         secondaryWrapper.appendChild(button)
       }
     })
-    
+
     const inputs = secondaryWrapper.querySelectorAll("input")
     inputs[0].checked = true
   }
@@ -130,7 +135,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     element.appendChild(img)
   }
 
-  const findPlusPrice = (value,variants) => {
+  const findPlusPrice = (value, variants) => {
     for (let variant of variants) {
       if (variant.title.includes(value))
         return variant.title.split("(")[1]?.split(")")[0]
@@ -142,8 +147,8 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     variantsWrapper.classList.add("sizes-wrapper")
     document.querySelector(`.size-${product.id}`).appendChild(variantsWrapper)
     option.values.forEach(value => {
-      let plusPrice = findPlusPrice(value,variants)
-      const [wrapper] = createButton({productId: option.id, variantId: value, text: getNewName(value), hasImg: false, plusPrice: plusPrice})
+      let plusPrice = findPlusPrice(value, variants)
+      const [wrapper] = createButton({ productId: option.id, variantId: value, text: getNewName(value), hasImg: false, plusPrice: plusPrice })
       variantsWrapper.appendChild(wrapper)
     })
     const inputs = variantsWrapper.querySelectorAll("input")
@@ -159,7 +164,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     element.appendChild(dropdown)
     dropdown.appendChild(variantsWrapper)
     option.values.forEach(value => {
-      const [wrapper, button] = createButton({productId: option.id, variantId: value, text: value, hasImg: false})
+      const [wrapper, button] = createButton({ productId: option.id, variantId: value, text: value, hasImg: false })
       variantsWrapper.appendChild(wrapper)
       button.addEventListener("change", () => {
         if (button.checked)
@@ -188,4 +193,4 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
   updateSizes(secondaryOption.id, secondaryVariantsWrapper, primaryVariantsWrapper.querySelector("input").value)
 }
 
-export { createButton, createVariantsWrapper, createMultipleOptionsDOM };
+export { createButton, createVariantsWrapper, createMultipleOptionsDOM, createSimpleButton };

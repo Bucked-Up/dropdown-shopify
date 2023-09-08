@@ -52,6 +52,18 @@
 ### 2.2. The div can have the following attributes:
 1. dropdown-text: there wont be a selected variant from the start.
 
+### 2.3. If you have optional products, place the following html blocks:
+```
+<div class="products-list optional-prod-999">
+      
+</div>
+```
+```
+<div class="products-list optional-products has-img">
+
+</div>
+```
+
 ### 3. Place this code and change as necessary into html/css footer
 ```
 <script>
@@ -65,8 +77,9 @@
 
   urlParams.set("utm_source", "");
 
-  const productsID = [999,999]; //ID of each the product
-  const hiddenProducts = [999,999] //only works if isKit = true
+  const productsID = [999,999];
+  const hiddenProducts = [999,999]
+  const optionalProducts = [999,999]
   const isKit = true;
   const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
   const discountCode = ""

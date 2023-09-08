@@ -3,8 +3,7 @@ import normalProduct from "./modules/handleProduct/normalProduct.js";
 import multipleOptionsProduct from "./modules/handleProduct/multipleOptionsProduct.js";
 import toggleLoading from "./modules/toggleLoading.js";
 import buy from "./modules/buy.js";
-
-let globalData = [];
+import optionalProduct from "./modules/handleProduct/optionalProduct.js";
 
 buyButtonsIds.forEach((ids) => {
   let buttons = [];
@@ -25,36 +24,41 @@ productsID.forEach((id) => {
 const main = async () => {
   toggleLoading();
   dataLayerStart();
-  globalData = await fetchProduct({ ids: productsID, isHidden: false });
+  const data = await fetchProduct({ ids: productsID, isHidden: false });
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
-  globalData.push(...hiddenProductsData)
+  data.push(...hiddenProductsData)
+  const optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false }) 
+  let selectedOptionalData = {selected: undefined};
   const noStock = (el) => !el.availableForSale;
-  if (globalData.some(noStock)) {
+  if (data.some(noStock) || optionalData.some(noStock)) {
     alert("Product not found.");
     window.location.href = "https://buckedup.com";
     return;
   }
-  globalData.filter(product => !product.isHidden).forEach((product, i) => {
+  optionalProduct(optionalData,selectedOptionalData);
+  data.filter(product => !product.isHidden).forEach((product, i) => {
     if (product.options.length > 1) {
       multipleOptionsProduct(product, i);
       return;
     }
-    normalProduct(product, i);
+    normalProduct(product);
   });
   if (!isKit)
     buyButton.forEach((btnArray) => {
       btnArray.forEach((btn) => {
         btn.addEventListener("click", () => {
           if (!btn.hasAttribute("disabled"))
-            buy(globalData[buyButton.indexOf(btnArray)]);
+            buy(data[buyButton.indexOf(btnArray)]);
         });
       });
     });
   else
     buyButton.forEach((btn) => {
       btn.addEventListener("click", () => {
-        if (!btn.hasAttribute("disabled"))
-          buy(globalData);
+        if (!btn.hasAttribute("disabled")){
+          data.push(selectedOptionalData.selected)
+          buy(data);
+        }
       });
     });
   toggleLoading();
