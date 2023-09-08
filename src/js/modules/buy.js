@@ -1,6 +1,7 @@
 import toggleButton from "./toggleButton.js";
 import { fetchUrl, apiOptions } from "../variables.js";
 import toggleLoading from "./toggleLoading.js";
+import { dataLayerRedirect } from "./dataLayer.js";
 
 const toggleShake = () => {
   const body = document.querySelector("body");
@@ -131,8 +132,8 @@ const buy = async (data) => {
       if (!responseDiscount.ok)
         throw new Error("Api Discount Error.")
     }
-    dataLayerRedirect()
-    window.location.href = responseLog.data.checkoutCreate.checkout.webUrl + `?${urlParams}`;
+    dataLayerRedirect();
+    window.location.href = responseLog.data.checkoutCreate.checkout.webUrl;
   } catch (error) {
     alert("There was a problem. Please try again later.");
     console.log(error);

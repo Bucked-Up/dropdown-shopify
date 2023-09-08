@@ -4,6 +4,7 @@ import multipleOptionsProduct from "./modules/handleProduct/multipleOptionsProdu
 import toggleLoading from "./modules/toggleLoading.js";
 import buy from "./modules/buy.js";
 import optionalProduct from "./modules/handleProduct/optionalProduct.js";
+import { dataLayerStart } from "./modules/dataLayer.js";
 
 buyButtonsIds.forEach((ids) => {
   let buttons = [];
