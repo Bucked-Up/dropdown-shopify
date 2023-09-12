@@ -51,11 +51,11 @@ const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   button.value = `${variantId}`;
   button.type = "radio";
   button.setAttribute("hidden", "");
-  return [button,wrapper]
+  return [button,wrapper,labelText]
 }
 
 const createButton = ({ productId, variantId, text, hasImg, src = "", variantPrice = "", plusPrice = undefined }) => {
-  const [button,wrapper] = createSimpleButton({hasImg: hasImg, src: src, text: text, variantId: variantId})
+  const [button,wrapper,labelText] = createSimpleButton({hasImg: hasImg, src: src, text: text, variantId: variantId})
   button.name = productId;
   button.setAttribute("price", variantPrice);
   button.setAttribute("label-text", text);
@@ -92,7 +92,6 @@ const createVariantsWrapper = (element, values, hasImg) => {
 }
 
 const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, product, hasImg) => {
-
   const getNewName = (value) => {
     switch (value) {
       case "Small": return "S";
