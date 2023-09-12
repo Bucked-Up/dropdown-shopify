@@ -67,11 +67,6 @@
 ### 3. Place this code and change as necessary into html/css footer
 ```
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const origin = window.location.pathname.replace("/", "").replace("/", "");
-  document.cookie = "offer_id=" + origin + "; path=/; domain=.buckedup.com;max-age=3600";
-  localStorage.setItem("first_page", origin);
-
   const utm_source = "";
   const step_count = "";
   const page_id = "";
@@ -79,13 +74,18 @@
 
   const productsID = [999,999]; //ID of each the product
   const hiddenProducts = [999,999]
-  const optionalProducts = [999,999]
+  const optionalProducts = []
   const isKit = true;
-  const buyButtonsIds = ["#element-1"]; //IDs of each button of each product(in the order put in productID).
+  const buyButtonsIds = ["#element-"]; //IDs of each button of each product(in the order put in productID).
   const discountCode = ""
-  const lastVariantElements = ["#test1", "#test2"] //for when last variant is moved.
+  const lastVariantElements = [] //for when last variant is moved.
 
   //stop here.
+  const urlParams = new URLSearchParams(window.location.search);
+  const origin = window.location.pathname.replace("/", "").replace("/", "");
+  document.cookie = "offer_id=" + origin + "; path=/; domain=.buckedup.com;max-age=3600";
+  document.cookie = `page_id=${page_id}; path=/; domain=.buckedup.com;max-age=3600`;
+  localStorage.setItem("first_page", origin);
 
   const buyButton = [];
   const row = {};
