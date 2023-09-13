@@ -13,7 +13,6 @@ const setDataLayer = ({event, action, value, currency}) => {
 };
 
 const dataLayerStart = () => {
-  
   setDataLayer({event: "pageview", action: "load", value: 0});
 };
 

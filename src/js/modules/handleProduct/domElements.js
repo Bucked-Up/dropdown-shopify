@@ -1,7 +1,7 @@
 const createDropdown = (values, hasText = false) => {
   const dropdown = document.createElement("div");
   const p = document.createElement("p");
-  const svg = '<svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5981 15.5C11.4434 17.5 8.55662 17.5 7.40192 15.5L1.33975 5C0.185047 3 1.62842 0.499998 3.93782 0.499998L16.0622 0.499999C18.3716 0.5 19.815 3 18.6603 5L12.5981 15.5Z" fill="black"/></svg>'
+  const svg = '<svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.15879 11.5373C8.36606 12.7142 6.63394 12.7142 5.84121 11.5373L0.506485 3.61732C-0.38833 2.28887 0.563563 0.5 2.16528 0.500001L12.8347 0.500001C14.4364 0.500002 15.3883 2.28887 14.4935 3.61732L9.15879 11.5373Z" fill="black"/></svg>'
   dropdown.setAttribute("role", "button");
   dropdown.classList.add("dropdown-mobile")
   p.innerHTML = hasText && `<span class="placeholder-text">${hasText}</span>` || values[0].title || values[0];
