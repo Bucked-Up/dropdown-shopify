@@ -34,7 +34,7 @@ const optionalProduct = (optionalData) => {
   const BUCKEDUP = getNewData(optionalData, "Bucked Up")
   const newData = [BUCKEDUP, LFG, WOKE, BAMF]
   newData.forEach(data => {
-    const domElement = document.querySelector(`.optional-prod-${data[0].auxId}`)
+    const domElement = document.querySelector(`.optional-prod-grid`)
     const [button, wrapper] = createSimpleButton({ hasImg: false, src: "", text: data[0].auxTitle, variantId: data[0].auxId })
     button.name = "optional-products"
     domElement.appendChild(wrapper)
