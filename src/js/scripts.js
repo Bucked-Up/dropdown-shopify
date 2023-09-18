@@ -28,15 +28,21 @@ const main = async () => {
   const data = await fetchProduct({ ids: productsID, isHidden: false });
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
   data.push(...hiddenProductsData)
-  const optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false }) 
-  let selectedOptionalData = {selected: undefined};
+  let optionalData = [];
+  let selectedOptionalData;
+  if (optionalProducts.length > 0) {
+    optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false })
+    selectedOptionalData = { selected: undefined };
+  }
   const noStock = (el) => !el.availableForSale;
   if (data.some(noStock) || optionalData.some(noStock)) {
     alert("Product not found.");
     window.location.href = "https://buckedup.com";
     return;
   }
-  optionalProduct(optionalData,selectedOptionalData);
+  if (optionalProducts.length > 0) {
+    optionalProduct(optionalData, selectedOptionalData);
+  }
   data.filter(product => !product.isHidden).forEach((product, i) => {
     if (product.options.length > 1) {
       multipleOptionsProduct(product, i);
@@ -56,8 +62,8 @@ const main = async () => {
   else
     buyButton.forEach((btn) => {
       btn.addEventListener("click", () => {
-        if (!btn.hasAttribute("disabled")){
-          if(selectedOptionalData.selected)
+        if (!btn.hasAttribute("disabled")) {
+          if (selectedOptionalData && selectedOptionalData.selected)
             data.push(selectedOptionalData.selected)
           buy(data);
         }
