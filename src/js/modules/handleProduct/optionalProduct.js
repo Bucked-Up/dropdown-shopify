@@ -1,14 +1,16 @@
-import { createButton, createSimpleButton, createVariantsWrapper } from "./domElements.js";
+import { createButton, createSimpleButton, createVariantsWrapper, handleButtonDropImg } from "./domElements.js";
 
 const updateSelected = (product) => {
   const selectedSubVariant = Array.from(document.querySelectorAll(".optional-prod input")).filter(input=>input.checked)[0].value.replace("-"," ")
   const currentVariants = product.variants.filter(variant=>variant.title.includes(selectedSubVariant))
   const optionsDomElement = document.querySelector(".optional-products");
+  const hasImg = optionsDomElement.classList.contains("has-img") || optionsDomElement.classList.contains("has-img-desktop");
   optionsDomElement.innerHTML = "";
-  const [variantsWrapper] = createVariantsWrapper(optionsDomElement, currentVariants, true)
+  const [variantsWrapper, dropdownMobile, dropdownImg] = createVariantsWrapper(optionsDomElement, currentVariants, hasImg)
   currentVariants.forEach(variant => {
-    const [wrapper] = createButton({ productId: product.id, variantId: variant.id, text: variant.title.split("-")[1], hasImg: true, src: variant.image.src, variantPrice: variant.price.amount })
+    const [wrapper,button] = createButton({ productId: product.id, variantId: variant.id, text: variant.title.split("-")[1], hasImg: hasImg, src: variant.image.src, variantPrice: variant.price.amount })
     variantsWrapper.appendChild(wrapper)
+    handleButtonDropImg(variant,button,dropdownMobile,hasImg,dropdownImg)
   })
   optionsDomElement.querySelector("input").checked = true
 }
