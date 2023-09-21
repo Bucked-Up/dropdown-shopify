@@ -53,6 +53,44 @@ const addDiscount = async (checkoutId) => {
   return response
 }
 
+const addCustomAttributes = async (attributes, id) => {
+  const input = {
+    "checkoutId": id,
+    "input": {
+      "customAttributes": attributes,
+    }
+  }
+  const query = `
+    mutation checkoutAttributesUpdateV2($checkoutId: ID!, $input: CheckoutAttributesUpdateV2Input!) {
+      checkoutAttributesUpdateV2(checkoutId: $checkoutId, input: $input) {
+        checkout {
+          id
+          customAttributes {
+            key
+            value
+          }
+        }
+      }
+    }
+  `
+  const body = {
+    query: query,
+    variables: input,
+  };
+  const response = await fetch(fetchUrl, {
+    ...apiOptions,
+    body: JSON.stringify(body),
+  });
+  return response
+}
+
+const startPopsixle = (id) => {
+  if (typeof a10x_dl != 'undefined') {
+    a10x_dl.unique_checkout_id = id;
+    session_sync(a10x_dl.s_id, id, a10x_dl.unique_checkout_id);
+  } else { console.log("Popsixcle script not found.") }
+}
+
 //updates order
 const buy = async (data) => {
   //if equals 0, then the data hasnt been fetched yet.
@@ -124,16 +162,26 @@ const buy = async (data) => {
       ...apiOptions,
       body: JSON.stringify(body),
     });
-    const responseLog = await response.json();
+    const data = await response.json();
     if (!response.ok)
       throw new Error("Api Error.")
+    const checkoutId = data.data.checkoutCreate.checkout.id
     if (discountCode !== "") {
-      const responseDiscount = await addDiscount(responseLog.data.checkoutCreate.checkout.id)
+      const responseDiscount = await addDiscount(checkoutId)
       if (!responseDiscount.ok)
         throw new Error("Api Discount Error.")
     }
+
+    startPopsixle(checkoutId);
+
+    const attributesResponse = await addCustomAttributes([{
+      "key": "unique_checkout_id",
+      "value": `${checkoutId}`,
+    }], checkoutId)
+
+    if (!attributesResponse.ok) throw new Error("Attributes Error.")
     dataLayerRedirect();
-    window.location.href = responseLog.data.checkoutCreate.checkout.webUrl;
+    window.location.href = data.data.checkoutCreate.checkout.webUrl;
   } catch (error) {
     alert("There was a problem. Please try again later.");
     console.log(error);

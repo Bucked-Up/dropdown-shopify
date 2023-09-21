@@ -8,9 +8,9 @@ const step_count = "";
 const page_id = "";
 const version_id = "";
 
-const productsID = [8663850418482]; //ID of each the product
+const productsID = [8685144408370]; //ID of each the product
 const hiddenProducts = []
-const optionalProducts = [8658987974962,8658964971826]
+const optionalProducts = []
 const isKit = true;
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
