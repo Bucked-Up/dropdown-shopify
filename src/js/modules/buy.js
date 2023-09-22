@@ -176,7 +176,7 @@ const buy = async (data) => {
     startPopsixle(checkoutId);
     const attributesResponse = await addCustomAttributes([{
       "key": "unique_checkout_id",
-      "value": `${checkoutId.split("Checkout/")[1]}`,
+      "value": `${checkoutId.split("?key=")[1]}`,
     }], checkoutId)
     if (!attributesResponse.ok) throw new Error("Attributes Error.")
 
