@@ -1,4 +1,4 @@
-import { createButton, createVariantsWrapper } from "./domElements.js";
+import { createButton, createVariantsWrapper, handleButtonDropImg } from "./domElements.js";
 
 const checkIfLastVariantHasStock = (variant, button, wrapper) => {
   if (!variant.availableForSale) {
@@ -23,17 +23,8 @@ const normalProduct = (product) => {
     } else
       variantsWrapper.appendChild(wrapper)
 
-    if (dropdownMobile)
-      button.addEventListener("change", () => {
-        if (button.checked)
-          dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
-      })
-    if (hasImg)
-      button.addEventListener("change", () => {
-        if (button.checked)
-          dropdownImg.src = variant.image.src
-        dropdownImg.alt = variant.title
-      })
+    handleButtonDropImg(variant,button,dropdownMobile,hasImg,dropdownImg)
+    
   });
   if (!currentRow.hasAttribute("dropdown-text"))
     variantsWrapper.querySelector("input").checked = true
