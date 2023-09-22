@@ -166,6 +166,7 @@ const buy = async (data) => {
     if (!response.ok)
       throw new Error("Api Error.")
     const checkoutId = data.data.checkoutCreate.checkout.id
+
     if (discountCode !== "") {
       const responseDiscount = await addDiscount(checkoutId)
       if (!responseDiscount.ok)
@@ -173,13 +174,12 @@ const buy = async (data) => {
     }
 
     startPopsixle(checkoutId);
-
     const attributesResponse = await addCustomAttributes([{
       "key": "unique_checkout_id",
-      "value": `${checkoutId}`,
+      "value": `${checkoutId.split("Checkout/")[1]}`,
     }], checkoutId)
-
     if (!attributesResponse.ok) throw new Error("Attributes Error.")
+
     dataLayerRedirect();
     window.location.href = data.data.checkoutCreate.checkout.webUrl;
   } catch (error) {
