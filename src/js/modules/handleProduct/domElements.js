@@ -51,11 +51,11 @@ const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   button.value = `${variantId}`;
   button.type = "radio";
   button.setAttribute("hidden", "");
-  return [button,wrapper,labelText]
+  return [button, wrapper, labelText]
 }
 
 const createButton = ({ productId, variantId, text, hasImg, src = "", variantPrice = "", plusPrice = undefined }) => {
-  const [button,wrapper,labelText] = createSimpleButton({hasImg: hasImg, src: src, text: text, variantId: variantId})
+  const [button, wrapper, labelText] = createSimpleButton({ hasImg: hasImg, src: src, text: text, variantId: variantId })
   button.name = productId;
   button.setAttribute("price", variantPrice);
   button.setAttribute("label-text", text);
@@ -68,6 +68,20 @@ const createButton = ({ productId, variantId, text, hasImg, src = "", variantPri
 
   return [wrapper, button];
 };
+
+const handleButtonDropImg = (variant, button, dropdownMobile, hasImg, dropdownImg) => {
+  if (dropdownMobile)
+    button.addEventListener("change", () => {
+      if (button.checked)
+        dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
+    })
+  if (hasImg)
+    button.addEventListener("change", () => {
+      if (button.checked)
+        dropdownImg.src = variant.image.src
+      dropdownImg.alt = variant.title
+    })
+}
 
 const createVariantsWrapper = (element, values, hasImg) => {
   const variantsWrapper = document.createElement("div")
@@ -192,4 +206,4 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
   updateSizes(secondaryOption.id, secondaryVariantsWrapper, primaryVariantsWrapper.querySelector("input").value)
 }
 
-export { createButton, createVariantsWrapper, createMultipleOptionsDOM, createSimpleButton };
+export { createButton, createVariantsWrapper, createMultipleOptionsDOM, createSimpleButton, handleButtonDropImg };
