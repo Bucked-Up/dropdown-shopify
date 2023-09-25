@@ -87,7 +87,7 @@ const addCustomAttributes = async (attributes, id) => {
 const startPopsixle = (id) => {
   if (typeof a10x_dl != 'undefined') {
     a10x_dl.unique_checkout_id = id;
-    session_sync(a10x_dl.s_id, id, a10x_dl.unique_checkout_id);
+    session_sync(a10x_dl.s_id, "unique_checkout_id", a10x_dl.unique_checkout_id);
   } else { console.log("Popsixcle script not found.") }
 }
 
@@ -173,7 +173,7 @@ const buy = async (data) => {
         throw new Error("Api Discount Error.")
     }
 
-    startPopsixle(checkoutId);
+    startPopsixle(checkoutId.split("?key=")[1]);
     const attributesResponse = await addCustomAttributes([{
       "key": "unique_checkout_id",
       "value": `${checkoutId.split("?key=")[1]}`,
