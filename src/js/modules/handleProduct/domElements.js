@@ -44,6 +44,7 @@ const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   wrapper.classList.add("button-wrapper")
   labelText.classList.add("label-text")
   labelBall.classList.add("label-ball")
+  labelBall.appendChild(document.createElement("span"))
   label.setAttribute("for", `${variantId}`);
   label.setAttribute("role", "button");
   labelText.innerHTML = text;
@@ -169,6 +170,19 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     return variantsWrapper
   }
 
+  const chooseBallColor = (text) => {
+    switch (text) {
+      case "Military Green / Black Logo": return "linear-gradient(90deg, #374409 50.77%, #000 52.13%)"
+      case "Black / Blue Logo": return "linear-gradient(90deg, #000 50.77%, #1172F8 52.13%)"
+      case "Heather Maroon / White Logo": return "linear-gradient(90deg, #B35366 50.77%, #F5F9FC 52.13%)"
+      case "Black / Red Logo": return "linear-gradient(90deg, #29282F 52.12%, #F50202 52.13%)"
+      case "Black / White Logo": return "linear-gradient(90deg, #29282F 50.77%, #F3F6F8 52.13%)"
+      case "Gray / Black Logo": return "linear-gradient(90deg, #A7ADB4 50.77%, #262628 52.13%)"
+      case "Light Olive / Black Logo": return "linear-gradient(90deg, #C5B4A8 50.77%, #2F2D2D 52.13%)"
+      case "White / Red Logo": return "linear-gradient(90deg, #F3F6F8 52.12%, #DF0C28 52.13%)"
+    }
+  }
+
   const createPrimaryVariantWrapper = (option) => {
     const variantsWrapper = document.createElement("div")
     variantsWrapper.classList.add("variants-wrapper")
@@ -176,13 +190,23 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     const selectedText = dropdown.querySelector("p")
     element.appendChild(dropdown)
     dropdown.appendChild(variantsWrapper)
+    const prevText = selectedText.innerHTML;
+    const newBall = document.createElement("span")
+    newBall.classList.add("label-ball")
+    newBall.classList.add("test-color")
+    newBall.style.background = chooseBallColor(prevText)
+    selectedText.innerHTML = newBall.outerHTML + prevText
     option.values.forEach(value => {
       const [wrapper, button] = createButton({ productId: option.id, variantId: value, text: value, hasImg: false })
       variantsWrapper.appendChild(wrapper)
-      button.addEventListener("change", () => {
-        if (button.checked)
-          selectedText.innerHTML = button.getAttribute("label-text")
-      })
+      const labelBall = wrapper.querySelector(".label-ball");
+      labelBall.classList.add("test-color");
+      labelBall.querySelector("span").style.background = chooseBallColor(wrapper.querySelector(".label-text").innerHTML)
+        button.addEventListener("change", () => {
+          if (button.checked) {
+            selectedText.innerHTML = labelBall.outerHTML + button.getAttribute("label-text")
+          }
+        })
     })
     const inputs = variantsWrapper.querySelectorAll("input")
     inputs[0].checked = true
