@@ -180,6 +180,10 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
       case "Gray / Black Logo": return "linear-gradient(90deg, #A7ADB4 50.77%, #262628 52.13%)"
       case "Light Olive / Black Logo": return "linear-gradient(90deg, #C5B4A8 50.77%, #2F2D2D 52.13%)"
       case "White / Red Logo": return "linear-gradient(90deg, #F3F6F8 52.12%, #DF0C28 52.13%)"
+      case "Heather Maroon/White Logo": return "linear-gradient(90deg, #B35366 50.77%, #F5F9FC 52.13%)"
+      case "Heather Orange/Black Logo": return "linear-gradient(90deg, #DA8D59 51.06%, #20282D 51.06%)"
+      case "Heather Blue/ White Logo": return "linear-gradient(90deg, #305F8C 50.77%, #F5F9FC 52.13%)"
+      case "Heather Gray/Black Logo": return "linear-gradient(90deg, #BEC7D5 51.06%, #20282D 51.06%)"
     }
   }
 
