@@ -18,6 +18,25 @@ const createDropdown = (values, hasText = false) => {
   return dropdown
 }
 
+const chooseBallColor2 = (text) => {
+  switch (text) {
+    case "Black / Blue": return "linear-gradient(90deg, #000 50.77%, #09A5F4 52.13%)"
+    case "Black / Gray": return "linear-gradient(90deg, #000 50.77%, #565656 52.13%)"
+    case "Black / Green": return "linear-gradient(90deg, #000 50.77%, #5DEC28 52.13%)"
+    case "Black / Pink": return "linear-gradient(90deg, #000 50.77%, #FF00C7 52.13%)"
+    case "Black / Red": return "linear-gradient(90deg, #000 50.77%, #F00 52.13%)"
+    case "Black / White": return "linear-gradient(90deg, #1C1A1B 50.77%, #FFF 52.13%)"
+    case "Blue / White": return "linear-gradient(90deg, #0178B0 50.77%, #FFF 52.13%)"
+    case "Military Green / Black": return "linear-gradient(90deg, #837A0B 50.77%, #000 52.13%)"
+    case "Neon Green": return "linear-gradient(90deg, #B2DE1A 50.77%, #FFF 52.13%)"
+    case "Neon Orange": return "linear-gradient(90deg, #F95430 50.77%, #FFF 52.13%)"
+    case "Neon Pink": return "linear-gradient(90deg, #F1178F 50.77%, #FFF 52.13%)"
+    case "Red / White": return "linear-gradient(90deg, #FC231C 50.77%, #FFF 52.13%)"
+    case "White / Red": return "linear-gradient(90deg, #FFF 50.77%, #FF0D00 52.13%)"
+    case "White / USA Flag Logo": return `url('data:image/svg+xml;utf8,<svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_1930_45)"><circle cx="23.5" cy="23.5" r="23.5" fill="url(%23paint0_linear_1930_45)"/><mask id="mask0_1930_45" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="23" y="-1" width="26" height="25"><path d="M49 24V-0.5H23V24H49Z" fill="%23D9D9D9"/></mask><g mask="url(%23mask0_1930_45)"><circle cx="23.5" cy="23.5" r="23.5" fill="%23140FFF"/></g></g><defs><linearGradient id="paint0_linear_1930_45" x1="0" y1="23" x2="24.5" y2="23" gradientUnits="userSpaceOnUse"><stop offset="0.9375" stop-color="white"/><stop offset="0.9376" stop-color="%23FF0D00"/></linearGradient><clipPath id="clip0_1930_45"><rect width="47" height="47" fill="white"/></clipPath></defs></svg>')`
+  }
+}
+
 const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   const wrapper = document.createElement("div");
   let img
@@ -52,6 +71,9 @@ const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   button.value = `${variantId}`;
   button.type = "radio";
   button.setAttribute("hidden", "");
+
+  labelBall.classList.add("test-color")
+  labelBall.querySelector("span").style.background = chooseBallColor2(text);
   return [button, wrapper, labelText]
 }
 
@@ -71,10 +93,13 @@ const createButton = ({ productId, variantId, text, hasImg, src = "", variantPri
 };
 
 const handleButtonDropImg = (variant, button, dropdownMobile, hasImg, dropdownImg) => {
+  const newBall = document.createElement("span")
+  newBall.classList.add("label-ball")
+  newBall.classList.add("test-color")
+  newBall.style.background = chooseBallColor2(button.getAttribute("label-text"))
   if (dropdownMobile)
     button.addEventListener("change", () => {
-      if (button.checked)
-        dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
+      dropdownMobile.querySelector("p").innerHTML = newBall.outerHTML + button.getAttribute("label-text")
     })
   if (hasImg)
     button.addEventListener("change", () => {
@@ -180,6 +205,10 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
       case "Gray / Black Logo": return "linear-gradient(90deg, #A7ADB4 50.77%, #262628 52.13%)"
       case "Light Olive / Black Logo": return "linear-gradient(90deg, #C5B4A8 50.77%, #2F2D2D 52.13%)"
       case "White / Red Logo": return "linear-gradient(90deg, #F3F6F8 52.12%, #DF0C28 52.13%)"
+      case "Heather Maroon/White Logo": return "linear-gradient(90deg, #B35366 50.77%, #F5F9FC 52.13%)"
+      case "Heather Orange/Black Logo": return "linear-gradient(90deg, #DA8D59 51.06%, #20282D 51.06%)"
+      case "Heather Blue/ White Logo": return "linear-gradient(90deg, #305F8C 50.77%, #F5F9FC 52.13%)"
+      case "Heather Gray/Black Logo": return "linear-gradient(90deg, #BEC7D5 51.06%, #20282D 51.06%)"
     }
   }
 
@@ -202,11 +231,11 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
       const labelBall = wrapper.querySelector(".label-ball");
       labelBall.classList.add("test-color");
       labelBall.querySelector("span").style.background = chooseBallColor(wrapper.querySelector(".label-text").innerHTML)
-        button.addEventListener("change", () => {
-          if (button.checked) {
-            selectedText.innerHTML = labelBall.outerHTML + button.getAttribute("label-text")
-          }
-        })
+      button.addEventListener("change", () => {
+        if (button.checked) {
+          selectedText.innerHTML = labelBall.outerHTML + button.getAttribute("label-text")
+        }
+      })
     })
     const inputs = variantsWrapper.querySelectorAll("input")
     inputs[0].checked = true
