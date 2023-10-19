@@ -54,13 +54,18 @@ const createSimpleButton = ({ hasImg, src, text, variantId }) => {
   button.setAttribute("hidden", "");
   return [button, wrapper, labelText]
 }
+const removeShake = el =>{
+  while(!el.parentNode.classList.contains("products-list"))
+   el = el.parentNode
+  el.parentNode.classList.remove("shake")
+}
 
 const createButton = ({ productId, variantId, text, hasImg, src = "", variantPrice = "", plusPrice = undefined }) => {
   const [button, wrapper, labelText] = createSimpleButton({ hasImg: hasImg, src: src, text: text, variantId: variantId })
   button.name = productId;
   button.setAttribute("price", variantPrice);
   button.setAttribute("label-text", text);
-  button.addEventListener("change",()=>{document.querySelector("body").classList.remove("shake")})
+  button.addEventListener("change",()=>{removeShake(button)})
   if (plusPrice) {
     const labelPrice = document.createElement("span");
     labelPrice.classList.add("label-price")
