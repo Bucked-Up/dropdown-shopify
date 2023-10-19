@@ -187,8 +187,9 @@
       border: 1px solid rgb(82, 81, 81);
       width: 1.25rem;
       height: 1.25rem;
-      &,span{
-        background-size:contain !important;
+      &,
+      span {
+        background-size: contain !important;
       }
       span {
         width: 100%;
@@ -308,14 +309,14 @@
 }
 
 .shake {
-  *[dropdown-text] {
+  &[dropdown-text] {
     animation: 0.3s forwards tilt-shaking;
     .dropdown-mobile {
       background-color: #ffe3e3;
       border-color: #ff2321;
     }
   }
-  .products-list .sizes-wrapper .button-wrapper .label{
+  .sizes-wrapper .button-wrapper .label {
     animation: 0.3s forwards tilt-shaking;
     background-color: #ffe3e3;
     border-color: #ff2321;
