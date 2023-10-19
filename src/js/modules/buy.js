@@ -105,6 +105,14 @@ const buy = async (data) => {
   const variantId = []
 
   if (isKit) {
+    const sizes = document.querySelectorAll(".sizes-wrapper input");
+    const checkSizes = (el) => el.checked;
+    if (!Array.from(sizes).some(checkSizes)) {
+      alert("Select your choices")
+      toggleShake();
+      return;
+    }
+    
     for (let product of data) {
       const currentVariant = getVariantId(product)
       if (!currentVariant) {
