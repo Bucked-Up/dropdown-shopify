@@ -249,8 +249,8 @@
         overflow: hidden;
         transition: 0.3s;
       }
-      &.active + .variants-wrapper, &.active
-      .variants-wrapper {
+      &.active + .variants-wrapper,
+      &.active .variants-wrapper {
         max-height: 21rem;
         padding: 0.5rem;
         overflow-y: auto;
@@ -291,14 +291,14 @@
 }
 
 .shake {
-  *[dropdown-text] {
+  &[dropdown-text] {
     animation: 0.3s forwards tilt-shaking;
     .dropdown-mobile {
       background-color: #ffe3e3;
       border-color: #ff2321;
     }
   }
-  .products-list .sizes-wrapper .button-wrapper .label{
+  .sizes-wrapper .button-wrapper .label {
     animation: 0.3s forwards tilt-shaking;
     background-color: #ffe3e3;
     border-color: #ff2321;
