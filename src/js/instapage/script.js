@@ -12,7 +12,7 @@ const productsID = [8685150306610,8685147062578]; //ID of each the product
 const hiddenProducts = []
 const optionalProducts = []
 const isKit = true;
-const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
+const buyButtonsIds = ["#element-35","#element-36qtty2"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
 const lastVariantElements = ["#test1", "#test2"] //for when last variant is moved.
 

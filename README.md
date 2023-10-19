@@ -65,6 +65,9 @@
 ```
 
 ### 3. Place this code and change as necessary into html/css footer
+
+#### you can add how much you want from the product depending on the button.
+#### Ex: #element-99qtty4 adds 4 of the product (or products if kit).
 ```
 <script>
   const utm_source = "";

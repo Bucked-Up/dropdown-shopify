@@ -5,7 +5,7 @@ import { dataLayerRedirect } from "./dataLayer.js";
 
 const getVariantId = (data) => {
   if (data.isHidden)
-    return {result: data.variants[0].id}
+    return { result: data.variants[0].id }
   let variantId
   const primaryWrapper = document.querySelector(`[primary="${data.id}"]`)
   if (primaryWrapper) {
@@ -88,7 +88,7 @@ const startPopsixle = (id) => {
 }
 
 //updates order
-const buy = async (data) => {
+const buy = async (e, data) => {
   //if equals 0, then the data hasnt been fetched yet.
   if (data.length === 0) {
     return;
@@ -132,8 +132,9 @@ const buy = async (data) => {
     });
   else
     toggleButton(buyButton)
-
-  const obj = variantId.map(id => { return { "variantId": id, "quantity": 1 } })
+  
+  const quantity = buyButtonsIds.filter(idWithQtty=>idWithQtty.includes(e.target.id))[0].split("qtty")[1]
+  const obj = variantId.map(id => { return { "variantId": id, "quantity": +quantity || 1 } })
   const input =
   {
     "input": {

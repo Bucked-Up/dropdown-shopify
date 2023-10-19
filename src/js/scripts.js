@@ -10,12 +10,12 @@ buyButtonsIds.forEach((ids) => {
   let buttons = [];
   if (!isKit) {
     ids.forEach((id) => {
-      buttons.push(document.querySelector(id));
+      buttons.push(document.querySelector(id.split("qtty")[0]));
     });
     buyButton.push(buttons);
   }
   else
-    buyButton.push(document.querySelector(ids))
+    buyButton.push(document.querySelector(ids.split("qtty")[0]))
 });
 
 productsID.forEach((id) => {
@@ -61,11 +61,11 @@ const main = async () => {
     });
   else
     buyButton.forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
         if (!btn.hasAttribute("disabled")) {
           if (selectedOptionalData && selectedOptionalData.selected)
             data.push(selectedOptionalData.selected)
-          buy(data);
+          buy(e,data);
         }
       });
     });
