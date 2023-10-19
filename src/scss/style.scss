@@ -298,6 +298,11 @@
       border-color: #ff2321;
     }
   }
+  .products-list .sizes-wrapper .button-wrapper .label{
+    animation: 0.3s forwards tilt-shaking;
+    background-color: #ffe3e3;
+    border-color: #ff2321;
+  }
 }
 
 @keyframes tilt-shaking {

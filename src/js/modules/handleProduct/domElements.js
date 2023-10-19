@@ -59,6 +59,7 @@ const createButton = ({ productId, variantId, text, hasImg, src = "", variantPri
   button.name = productId;
   button.setAttribute("price", variantPrice);
   button.setAttribute("label-text", text);
+  button.addEventListener("change",()=>{document.querySelector("body").classList.remove("shake")})
   if (plusPrice) {
     const labelPrice = document.createElement("span");
     labelPrice.classList.add("label-price")
@@ -72,13 +73,11 @@ const createButton = ({ productId, variantId, text, hasImg, src = "", variantPri
 const handleButtonDropImg = (variant, button, dropdownMobile, hasImg, dropdownImg) => {
   if (dropdownMobile)
     button.addEventListener("change", () => {
-      if (button.checked)
-        dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
+      dropdownMobile.querySelector("p").innerHTML = button.getAttribute("label-text")
     })
   if (hasImg)
     button.addEventListener("change", () => {
-      if (button.checked)
-        dropdownImg.src = variant.image.src
+      dropdownImg.src = variant.image.src
       dropdownImg.alt = variant.title
     })
 }
@@ -118,17 +117,16 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
   }
 
   const updateSizes = (optionId, secondaryWrapper, primarySelected) => {
+    const prevSelected = secondaryWrapper.querySelector(["input:checked"])
     secondaryWrapper.innerHTML = ""
     product.variants.forEach(variant => {
       const newValue = variant.selectedOptions[1].value
       if (variant.title.includes(primarySelected) && !secondaryWrapper.innerHTML.includes(newValue)) {
-        const button = createButton({ productId: optionId, variantId: newValue, text: getNewName(newValue), hasImg: false, plusPrice: findPlusPrice(newValue, product.variants) })[0]
-        secondaryWrapper.appendChild(button)
+        const [wrapper, button] = createButton({ productId: optionId, variantId: newValue, text: getNewName(newValue), hasImg: false, plusPrice: findPlusPrice(newValue, product.variants) })
+        if (prevSelected?.id === newValue) button.checked = true;
+        secondaryWrapper.appendChild(wrapper)
       }
     })
-
-    const inputs = secondaryWrapper.querySelectorAll("input")
-    inputs[0].checked = true
   }
 
   const updateImageMultiple = (product, title, img) => {
@@ -155,17 +153,10 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
     }
   }
 
-  const createTshirtSizesWrapper = (option, { variants }) => {
+  const createTshirtSizesWrapper = () => {
     const variantsWrapper = document.createElement("div")
     variantsWrapper.classList.add("sizes-wrapper")
     document.querySelector(`.size-${product.id}`).appendChild(variantsWrapper)
-    option.values.forEach(value => {
-      let plusPrice = findPlusPrice(value, variants)
-      const [wrapper] = createButton({ productId: option.id, variantId: value, text: getNewName(value), hasImg: false, plusPrice: plusPrice })
-      variantsWrapper.appendChild(wrapper)
-    })
-    const inputs = variantsWrapper.querySelectorAll("input")
-    inputs[0].checked = true
     return variantsWrapper
   }
 
@@ -180,8 +171,7 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
       const [wrapper, button] = createButton({ productId: option.id, variantId: value, text: value, hasImg: false })
       variantsWrapper.appendChild(wrapper)
       button.addEventListener("change", () => {
-        if (button.checked)
-          selectedText.innerHTML = button.getAttribute("label-text")
+        selectedText.innerHTML = button.getAttribute("label-text")
       })
     })
     const inputs = variantsWrapper.querySelectorAll("input")
@@ -191,16 +181,14 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
 
 
   const [primaryVariantsWrapper] = createPrimaryVariantWrapper(primaryOption, true)
-  const secondaryVariantsWrapper = createTshirtSizesWrapper(secondaryOption, product)
+  const secondaryVariantsWrapper = createTshirtSizesWrapper()
 
   primaryVariantsWrapper.querySelectorAll("input").forEach(input => {
     input.addEventListener("change", () => {
-      if (input.checked) {
-        if (hasImg) {
-          updateImageMultiple(product, input.value, img);
-        }
-        updateSizes(secondaryOption.id, secondaryVariantsWrapper, input.value)
+      if (hasImg) {
+        updateImageMultiple(product, input.value, img);
       }
+      updateSizes(secondaryOption.id, secondaryVariantsWrapper, input.value)
     })
   })
   updateSizes(secondaryOption.id, secondaryVariantsWrapper, primaryVariantsWrapper.querySelector("input").value)

@@ -8,7 +8,7 @@ const step_count = "";
 const page_id = "";
 const version_id = "";
 
-const productsID = [8685144408370]; //ID of each the product
+const productsID = [8685150306610]; //ID of each the product
 const hiddenProducts = []
 const optionalProducts = []
 const isKit = true;
