@@ -3,11 +3,6 @@ import { fetchUrl, apiOptions } from "../variables.js";
 import toggleLoading from "./toggleLoading.js";
 import { dataLayerRedirect } from "./dataLayer.js";
 
-const toggleShake = () => {
-  const body = document.querySelector("body");
-  body.classList.toggle("shake");
-}
-
 const getVariantId = (data) => {
   if (data.isHidden)
     return data.variants[0].id
@@ -17,14 +12,15 @@ const getVariantId = (data) => {
     const secondaryWrapper = document.querySelector(`.size-${data.id}`)
     const primary = Array.from(primaryWrapper.querySelectorAll("input")).filter(el => el.checked)[0]
     const secondary = Array.from(secondaryWrapper.querySelectorAll("input")).filter(el => el.checked)[0]
+    if (!secondary) return { result: false, wrapper: secondaryWrapper }
     variantId = data.variants.filter(variant => (variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
   }
   else {
     const input = Array.from(document.querySelectorAll(`[name="${data.id}"]`)).filter(el => el.checked)[0]
-    if (!input) return false
+    if (!input) return { result: false, wrapper: document.querySelector(`.prod-${data.id}`) }
     variantId = input.value;
   }
-  return variantId
+  return { result: variantId }
 }
 
 const addDiscount = async (checkoutId) => {
@@ -105,32 +101,29 @@ const buy = async (data) => {
   const variantId = []
 
   if (isKit) {
-    const sizes = document.querySelectorAll(".sizes-wrapper input");
-    const checkSizes = (el) => el.checked;
-    if (!Array.from(sizes).some(checkSizes)) {
-      alert("Select your choices")
-      toggleShake();
-      return;
-    }
-
+    let notSelected = false;
     for (let product of data) {
       const currentVariant = getVariantId(product)
-      if (!currentVariant) {
-        alert("Select your choices")
-        toggleShake();
-        return;
+      if (!currentVariant.result) {
+        currentVariant.wrapper.classList.add("shake")
+        notSelected = true;
+        continue;
       }
-      variantId.push(getVariantId(product))
+      variantId.push(currentVariant.result)
+    }
+    if (notSelected) {
+      alert("Select your choices")
+      return;
     }
   }
   else {
-    const currentVariant = getVariantId(product)
-    if (!currentVariant) {
+    const currentVariant = getVariantId(data)
+    if (!currentVariant.result) {
       alert("Select your choices")
-      toggleShake();
+      currentVariant.wrapper.classList.add("shake")
       return;
     }
-    variantId.push(getVariantId(data))
+    variantId.push(currentVariant.result)
   }
   toggleLoading();
   if (!isKit)
