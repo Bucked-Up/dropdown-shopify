@@ -23,10 +23,10 @@ const getVariantId = (data) => {
   return { result: variantId }
 }
 
-const addDiscount = async (checkoutId) => {
+const addDiscount = async (checkoutId, btnDiscountCode) => {
   const input = {
     "checkoutId": checkoutId,
-    "discountCode": discountCode
+    "discountCode": btnDiscountCode || discountCode
   }
   const query = `
     mutation checkoutDiscountCodeApplyV2($checkoutId: ID!, $discountCode: String!) {
@@ -88,7 +88,7 @@ const startPopsixle = (id) => {
 }
 
 //updates order
-const buy = async (e, data) => {
+const buy = async (btn, data) => {
   //if equals 0, then the data hasnt been fetched yet.
   if (data.length === 0) {
     return;
@@ -132,9 +132,8 @@ const buy = async (e, data) => {
     });
   else
     toggleButton(buyButton)
-  
-  const quantity = buyButtonsIds.filter(idWithQtty=>idWithQtty.includes(e.target.id))[0].split("qtty")[1]
-  const obj = variantId.map(id => { return { "variantId": id, "quantity": +quantity || 1 } })
+
+  const obj = variantId.map(id => { return { "variantId": id, "quantity": +btn.getAttribute("quantity") || 1 } })
   const input =
   {
     "input": {
@@ -168,9 +167,9 @@ const buy = async (e, data) => {
     if (!response.ok)
       throw new Error("Api Error.")
     const checkoutId = data.data.checkoutCreate.checkout.id
-
-    if (discountCode !== "") {
-      const responseDiscount = await addDiscount(checkoutId)
+    const btnDiscountCode = btn.getAttribute("discountCode")
+    if (discountCode !== "" || btnDiscountCode) {
+      const responseDiscount = await addDiscount(checkoutId, btnDiscountCode)
       if (!responseDiscount.ok)
         throw new Error("Api Discount Error.")
     }

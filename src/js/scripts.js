@@ -6,16 +6,27 @@ import buy from "./modules/buy.js";
 import optionalProduct from "./modules/handleProduct/optionalProduct.js";
 import { dataLayerStart } from "./modules/dataLayer.js";
 
+const setQuantity = (id) => {
+  const isString = typeof (id) === "string"
+  const button = document.querySelector(isString ? id : id.id)
+  if (!isString){
+    button.setAttribute("quantity", id.quantity)
+    button.setAttribute("discountCode", id.discountCode)
+  }
+  return button
+}
+
 buyButtonsIds.forEach((ids) => {
   let buttons = [];
   if (!isKit) {
     ids.forEach((id) => {
-      buttons.push(document.querySelector(id.split("qtty")[0]));
+      buttons.push(setQuantity(id));
     });
     buyButton.push(buttons);
   }
-  else
-    buyButton.push(document.querySelector(ids.split("qtty")[0]))
+  else {
+    buyButton.push(setQuantity(ids))
+  }
 });
 
 productsID.forEach((id) => {
@@ -61,11 +72,11 @@ const main = async () => {
     });
   else
     buyButton.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener("click", () => {
         if (!btn.hasAttribute("disabled")) {
           if (selectedOptionalData && selectedOptionalData.selected)
             data.push(selectedOptionalData.selected)
-          buy(e,data);
+          buy(btn, data);
         }
       });
     });

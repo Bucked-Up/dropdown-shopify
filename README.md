@@ -66,8 +66,11 @@
 
 ### 3. Place this code and change as necessary into html/css footer
 
-#### you can add how much you want from the product depending on the button.
-#### Ex: #element-99qtty4 adds 4 of the product (or products if kit).
+you can add how much you want from the product depending on the button, and the discountCode.
+Ex:
+```
+const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2}, {id: "#element-3", discountCode: "code"}, {id: "element-4", quantity: 5, discountCode: "code"}]
+```
 ```
 <script>
   const utm_source = "";

@@ -8,13 +8,13 @@ const step_count = "";
 const page_id = "";
 const version_id = "";
 
-const productsID = [8685150306610,8685147062578]; //ID of each the product
-const hiddenProducts = []
+const productsID = []; //ID of each the product
+const hiddenProducts = [8858114064690]
 const optionalProducts = []
 const isKit = true;
-const buyButtonsIds = ["#element-35","#element-36qtty2"]; //IDs of each button of each product(in the order put in productID).
+const buyButtonsIds = [{id: "#element-35", discountCode: "rutfb31"},{id: "#element-36", quantity: 2}]; //IDs of each button of each product(in the order put in productID).
 const discountCode = ""
-const lastVariantElements = ["#test1", "#test2"] //for when last variant is moved.
+const lastVariantElements = [] //for when last variant is moved.
 
 //stop here.
 
