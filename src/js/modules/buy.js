@@ -163,10 +163,10 @@ const buy = async (btn, data) => {
       ...apiOptions,
       body: JSON.stringify(body),
     });
-    const data = await response.json();
+    const apiData = await response.json();
     if (!response.ok)
       throw new Error("Api Error.")
-    const checkoutId = data.data.checkoutCreate.checkout.id
+    const checkoutId = apiData.data.checkoutCreate.checkout.id
     const btnDiscountCode = btn.getAttribute("discountCode")
     if (discountCode !== "" || btnDiscountCode) {
       const responseDiscount = await addDiscount(checkoutId, btnDiscountCode)
@@ -181,8 +181,8 @@ const buy = async (btn, data) => {
     }], checkoutId)
     if (!attributesResponse.ok) throw new Error("Attributes Error.")
 
-    dataLayerRedirect();
-    window.location.href = data.data.checkoutCreate.checkout.webUrl;
+    dataLayerRedirect(data);
+    window.location.href = apiData.data.checkoutCreate.checkout.webUrl;
   } catch (error) {
     alert("There was a problem. Please try again later.");
     console.log(error);

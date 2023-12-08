@@ -35,10 +35,10 @@ productsID.forEach((id) => {
 
 const main = async () => {
   toggleLoading();
-  dataLayerStart();
   const data = await fetchProduct({ ids: productsID, isHidden: false });
   const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
   data.push(...hiddenProductsData)
+  dataLayerStart(data);
   let optionalData = [];
   let selectedOptionalData;
   if (optionalProducts.length > 0) {
