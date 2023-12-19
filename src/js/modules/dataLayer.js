@@ -16,28 +16,33 @@ const setDataLayer = ({ event, action, value, currency }) => {
   });
 };
 
+const setKlaviyo = (name, item, titles) => {
+  const currentTime = new Date();
+  try {
+    klaviyo.push([
+      "track",
+      name,
+      { ...obj, ...item, products: titles, pagepath: window.location.pathname, pageurl: window.location.href, time: currentTime.getTime() },
+    ]);
+  } catch (err) {
+    console.log("failed klaviyo\n", err);
+  }
+};
+
 const dataLayerStart = (data) => {
   const titles = data.map((items) => items.title);
   const item = { event: "pageview", action: "load", value: 0 };
   setDataLayer(item);
-  const currentTime = new Date();
-  klaviyo.push([
-    "track",
-    "Page View",
-    { ...obj, ...item, products: titles, pagepath: window.location.pathname, pageurl: window.location.href, time: currentTime.getTime() },
-  ]);
+  setTimeout(() => {
+    setKlaviyo("Page View", item, titles);
+  }, 200);
 };
 
 const dataLayerRedirect = (data) => {
   const titles = data.map((items) => items.title);
   const item = { event: "offerview", action: "viewaction", value: 0 };
   setDataLayer(item);
-  const currentTime = new Date();
-  klaviyo.push([
-    "track",
-    "User Redirect Engagement",
-    { ...obj, ...item, products: titles, pagepath: window.location.pathname, pageurl: window.location.href, time: currentTime.getTime() },
-  ]);
+  setKlaviyo("User Redirect Engagement", item, titles);
 };
 
 export { dataLayerStart, dataLayerRedirect };
