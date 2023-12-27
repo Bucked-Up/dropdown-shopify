@@ -52,6 +52,7 @@ const fetchProduct = async ({ ids, isHidden }) => {
     }
     data = data.data.nodes;
     data.forEach((obj) => {
+      if(!obj.availableForSale) console.log("Out of stock: ",obj.id,obj.title)
       if (isHidden)
         obj.isHidden = true
       obj.id = obj.id.split("/").slice(-1)[0]
