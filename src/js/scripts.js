@@ -45,7 +45,13 @@ const main = async () => {
     optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false })
     selectedOptionalData = { selected: undefined };
   }
-  const noStock = (el) => !el.availableForSale;
+  const noStock = (el) =>{
+    const isOutOfStock = !el.availableForSale;
+    if(isOutOfStock){
+      console.log("Out of stock: ",el.id,el.title)
+    }
+    return isOutOfStock
+  } 
   if (data.some(noStock) || optionalData.some(noStock)) {
     alert("Product not found.");
     window.location.href = "https://buckedup.com";
