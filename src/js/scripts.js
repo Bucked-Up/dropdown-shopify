@@ -18,16 +18,7 @@ const setQuantity = (id) => {
 }
 
 buyButtonsIds.forEach((ids) => {
-  let buttons = [];
-  if (!isKit) {
-    ids.forEach((id) => {
-      buttons.push(setQuantity(id));
-    });
-    buyButton.push(buttons);
-  }
-  else {
-    buyButton.push(setQuantity(ids))
-  }
+  buyButton.push(setQuantity(ids))
 });
 
 productsID.forEach((id) => {
@@ -64,25 +55,15 @@ const main = async () => {
     }
     normalProduct(product);
   });
-  if (!isKit)
-    buyButton.forEach((btnArray) => {
-      btnArray.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          if (!btn.hasAttribute("disabled"))
-            buy(data[buyButton.indexOf(btnArray)]);
-        });
-      });
+  buyButton.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!btn.hasAttribute("disabled")) {
+        if (selectedOptionalData && selectedOptionalData.selected)
+          data.push(selectedOptionalData.selected)
+        buy(btn, data);
+      }
     });
-  else
-    buyButton.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (!btn.hasAttribute("disabled")) {
-          if (selectedOptionalData && selectedOptionalData.selected)
-            data.push(selectedOptionalData.selected)
-          buy(btn, data);
-        }
-      });
-    });
+  });
   toggleLoading();
 }
 

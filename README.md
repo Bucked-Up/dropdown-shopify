@@ -76,10 +76,11 @@
 ### 3. Place this code and change as necessary into html/css footer
 
 you can add how much you want from the product depending on the button, the discountCode and the products you want from the specific button.
+(the quantity in the "products" takes priority)
 Ex:
 
 ```
-const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode: "code", products: [991,992,993]}]
+const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode: "code", products: '{"991": {"quantity": 1},"992": {"quantity": 2}}'}]
 ```
 
 ```
@@ -92,7 +93,6 @@ const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode
   const productsID = [999,999]; //ID of each the product
   const hiddenProducts = [999,999]
   const optionalProducts = []
-  const isKit = true;
   const buyButtonsIds = ["#element-"]; //IDs of each button of each product(in the order put in productID).
   const discountCode = ""
   const lastVariantElements = [] //for when last variant is moved.

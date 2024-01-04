@@ -4,21 +4,24 @@ import toggleLoading from "./toggleLoading.js";
 import { dataLayerRedirect } from "./dataLayer.js";
 
 const getVariantId = (data) => {
-  if (data.isHidden)
-    return { result: data.variants[0].id }
-  let variantId
+  const variantId = {}
+  if(data.quantity) variantId.quantity = data.quantity
+  if (data.isHidden){
+    variantId.id = data.variants[0].id
+    return { result: variantId }
+  }
   const primaryWrapper = document.querySelector(`[primary="${data.id}"]`)
   if (primaryWrapper) {
     const secondaryWrapper = document.querySelector(`.size-${data.id}`)
     const primary = Array.from(primaryWrapper.querySelectorAll("input")).filter(el => el.checked)[0]
     const secondary = Array.from(secondaryWrapper.querySelectorAll("input")).filter(el => el.checked)[0]
     if (!secondary) return { result: false, wrapper: secondaryWrapper }
-    variantId = data.variants.filter(variant => (variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
+    variantId.id = data.variants.filter(variant => (variant.title.includes(primary.value) && variant.title.includes(secondary.value)))[0].id
   }
   else {
     const input = Array.from(document.querySelectorAll(`[name="${data.id}"]`)).filter(el => el.checked)[0]
     if (!input) return { result: false, wrapper: document.querySelector(`.prod-${data.id}`) }
-    variantId = input.value;
+    variantId.id = input.value;
   }
   return { result: variantId }
 }
@@ -98,48 +101,38 @@ const buy = async (btn, data) => {
     return;
   }
 
-  let btnProducts = btn.getAttribute("products");
+  let btnProducts = JSON.parse(btn.getAttribute("products"));
   if(btnProducts){
-    btnProducts = btnProducts.split(",")
-    data = data.filter(product=>btnProducts.includes(product.id))
+    data = data.filter((product)=>{
+      if(Object.keys(btnProducts).includes(product.id)){
+        product.quantity = btnProducts[product.id].quantity
+        return true
+      }
+      return false
+    })
   }
 
   const variantId = []
 
-  if (isKit) {
-    let notSelected = false;
-    for (let product of data) {
-      const currentVariant = getVariantId(product)
-      if (!currentVariant.result) {
-        currentVariant.wrapper.classList.add("shake")
-        notSelected = true;
-        continue;
-      }
-      variantId.push(currentVariant.result)
-    }
-    if (notSelected) {
-      alert("Select your choices")
-      return;
-    }
-  }
-  else {
-    const currentVariant = getVariantId(data)
+  let notSelected = false;
+  for (let product of data) {
+    const currentVariant = getVariantId(product)
     if (!currentVariant.result) {
-      alert("Select your choices")
       currentVariant.wrapper.classList.add("shake")
-      return;
+      notSelected = true;
+      continue;
     }
     variantId.push(currentVariant.result)
   }
-  toggleLoading();
-  if (!isKit)
-    buyButton.forEach((btnArray) => {
-      toggleButton(btnArray);
-    });
-  else
-    toggleButton(buyButton)
+  if (notSelected) {
+    alert("Select your choices")
+    return;
+  }
 
-  const obj = variantId.map(id => { return { "variantId": id, "quantity": +btn.getAttribute("quantity") || 1 } })
+  toggleLoading();
+  toggleButton(buyButton)
+
+  const obj = variantId.map(variant => { return { "variantId": variant.id, "quantity": variant.quantity || +btn.getAttribute("quantity") || 1 } })
   const input =
   {
     "input": {

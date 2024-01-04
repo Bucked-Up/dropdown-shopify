@@ -6,9 +6,7 @@ const urlParamsCookies = ["click_id", "utm_source", "utm_medium", "utm_campaign"
 const productsID = [8685147062578]; //ID of each the product
 const hiddenProducts = [8858114064690];
 const optionalProducts = [];
-const isKit = true;
-const buyButtonsIds = ["#element-35",{ id: "#element-36", quantity: 1, products: [8858114064690] },
-]; //IDs of each button of each product(in the order put in productID).
+const buyButtonsIds = ["#element-35", { id: "#element-36", products: '{"8858114064690": {"quantity": 3},"8685147062578": {"quantity": 2}}' }]; //IDs of each button of each product(in the order put in productID).
 const discountCode = "";
 const lastVariantElements = []; //for when last variant is moved.
 
