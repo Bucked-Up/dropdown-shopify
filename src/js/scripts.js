@@ -10,8 +10,9 @@ const setQuantity = (id) => {
   const isString = typeof (id) === "string"
   const button = document.querySelector(isString ? id : id.id)
   if (!isString){
-    button.setAttribute("quantity", id.quantity)
-    button.setAttribute("discountCode", id.discountCode)
+    id.quantity && button.setAttribute("quantity", id.quantity)
+    id.products && button.setAttribute("products", id.products)
+    id.discountCode && button.setAttribute("discountCode", id.discountCode)
   }
   return button
 }

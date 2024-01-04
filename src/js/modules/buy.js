@@ -98,6 +98,12 @@ const buy = async (btn, data) => {
     return;
   }
 
+  let btnProducts = btn.getAttribute("products");
+  if(btnProducts){
+    btnProducts = btnProducts.split(",")
+    data = data.filter(product=>btnProducts.includes(product.id))
+  }
+
   const variantId = []
 
   if (isKit) {

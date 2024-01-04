@@ -75,11 +75,11 @@
 
 ### 3. Place this code and change as necessary into html/css footer
 
-you can add how much you want from the product depending on the button, and the discountCode.
+you can add how much you want from the product depending on the button, the discountCode and the products you want from the specific button.
 Ex:
 
 ```
-const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2}, {id: "#element-3", discountCode: "code"}, {id: "element-4", quantity: 5, discountCode: "code"}]
+const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode: "code", products: [991,992,993]}]
 ```
 
 ```
