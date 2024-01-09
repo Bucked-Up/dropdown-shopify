@@ -12,7 +12,7 @@
     --text-color: black;
   }
   /* if dropdowns, put the id of each dropdown html block. */
-  #element-990,#element-986{
+  #element-,#element-{
     max-height: 2.9456rem !important;
   }
 </style>
