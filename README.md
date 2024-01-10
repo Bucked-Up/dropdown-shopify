@@ -75,14 +75,6 @@
 
 ### 3. Place this code and change as necessary into html/css footer
 
-you can add how much you want from the product depending on the button, the discountCode and the products you want from the specific button.
-(the quantity in the "products" takes priority)
-Ex:
-
-```
-const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode: "code", products: '{"991": {"quantity": 1},"992": {"quantity": 2}}'}]
-```
-
 ```
 <script>
   const step_count = "";
@@ -112,6 +104,19 @@ const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode
   const row = {};
 </script>
 <script src="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/js/scripts.js" type="module"></script>
+```
+
+You can add how much you want from the product depending on the button, the discountCode and the products you want from the specific button.
+(the quantity in the "products" takes priority)
+Ex:
+
+```
+const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode: "code", products: '{"991": {"quantity": 1},"992": {"quantity": 2}}'}]
+```
+
+You can specify whitch variant of the product like so: "productID-variantID". Ex:
+```
+["999-875",998]
 ```
 
 ## How to compile scss

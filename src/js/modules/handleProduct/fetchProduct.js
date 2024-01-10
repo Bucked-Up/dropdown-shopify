@@ -1,4 +1,28 @@
 import { apiOptions, fetchUrl } from "../../variables.js";
+
+const filterVariants = (data, ids) => {
+  const getVariant = (id) => {
+    if (typeof id == "string" && id.includes("-")) return "gid://shopify/ProductVariant/" + id.split("-")[1];
+    return null;
+  };
+  
+  const getProdIndex = (data, id) => {
+    id = id.split("-")[0];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id.includes(id)) return i;
+    }
+  };
+
+  ids.forEach((id) => {
+    const variant = getVariant(id);
+    if (variant) {
+      const i = getProdIndex(data, id);
+      data[i].variants.edges = data[i].variants.edges.filter((filteredVariant) => filteredVariant.node.id == variant);
+      data[i].availableForSale = data[i].variants.edges[0].node.availableForSale
+    }
+  });
+};
+
 const fetchProduct = async ({ ids, isHidden }) => {
   const query = `
   { 
@@ -40,43 +64,41 @@ const fetchProduct = async ({ ids, isHidden }) => {
   }
   `;
   try {
-    const response = await fetch(fetchUrl,
-      {
-        ...apiOptions,
-        body: JSON.stringify({ query: query }),
-      }
-    );
+    const response = await fetch(fetchUrl, {
+      ...apiOptions,
+      body: JSON.stringify({ query: query }),
+    });
     let data = await response.json();
     if (!response.ok) {
-      throw new Error("Error Fetching Api.")
+      throw new Error("Error Fetching Api.");
     }
     data = data.data.nodes;
+    filterVariants(data, ids);
+
     data.forEach((obj) => {
-      if(!obj.availableForSale) console.log("Out of stock: ",obj.id,obj.title)
-      if (isHidden)
-        obj.isHidden = true
-      obj.id = obj.id.split("/").slice(-1)[0]
+      if (!obj.availableForSale) console.log("Out of stock: ", obj.id, obj.title);
+      if (isHidden) obj.isHidden = true;
+      obj.id = obj.id.split("/").slice(-1)[0];
 
-      if (row[obj.id]?.classList.contains("move-last-variant"))
-        obj.variants.edges.slice(-1)[0].node["last-variant"] = true
+      if (row[obj.id]?.classList.contains("move-last-variant")) obj.variants.edges.slice(-1)[0].node["last-variant"] = true;
 
-      obj.variants = obj.variants.edges.filter(edge => (edge.node.availableForSale || (!edge.node.availableForSale && edge.node["last-variant"])));
+      obj.variants = obj.variants.edges.filter((edge) => edge.node.availableForSale || (!edge.node.availableForSale && edge.node["last-variant"]));
       let minPrice = 99999;
       for (let key in obj.variants) {
         obj.variants[key] = obj.variants[key].node;
-        obj.variants[key].title = obj.variants[key].title.split("(")[0]
-        if (+obj.variants[key].price.amount < minPrice) minPrice = obj.variants[key].price.amount
+        obj.variants[key].title = obj.variants[key].title.split("(")[0];
+        if (+obj.variants[key].price.amount < minPrice) minPrice = obj.variants[key].price.amount;
       }
       for (let key in obj.variants) {
         if (+obj.variants[key].price.amount > minPrice) {
-          const string = ` (+$${(obj.variants[key].price.amount - minPrice).toFixed(2)})`
-          obj.variants[key].title = obj.variants[key].title + string
+          const string = ` (+$${(obj.variants[key].price.amount - minPrice).toFixed(2)})`;
+          obj.variants[key].title = obj.variants[key].title + string;
         }
       }
     });
-    return data
+    return data;
   } catch (error) {
-    alert("Product not found.")
+    alert("Product not found.");
     console.log(error);
     return null;
   }
