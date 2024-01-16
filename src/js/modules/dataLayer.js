@@ -1,9 +1,13 @@
-const setDataLayer = ({event, action, value, currency}) => {
+const obj = {
+  step_count: step_count,
+  page_id: page_id,
+  version_id: version_id,
+};
+
+const setDataLayer = ({ event, action, value, currency }) => {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    step_count: step_count,
-    page_id: page_id,
-    version_id: version_id,
+    ...obj,
     event: event,
     action: action,
     value: value,
@@ -12,14 +16,33 @@ const setDataLayer = ({event, action, value, currency}) => {
   });
 };
 
-const dataLayerStart = () => {
-  
-  setDataLayer({event: "pageview", action: "load", value: 0});
+const setKlaviyo = (name, item, titles) => {
+  const currentTime = new Date();
+  try {
+    klaviyo.push([
+      "track",
+      name,
+      { ...obj, ...item, products: titles, pagepath: window.location.pathname, pageurl: window.location.href, time: currentTime.getTime() },
+    ]);
+  } catch (err) {
+    console.log("failed klaviyo\n", err);
+  }
 };
 
-const dataLayerRedirect = () => {
-  
-  setDataLayer({event: "offerview", action: "viewaction", value: 0});
+const dataLayerStart = (data) => {
+  const titles = data.map((items) => items.title);
+  const item = { event: "pageview", action: "load", value: 0 };
+  setDataLayer(item);
+  setTimeout(() => {
+    setKlaviyo("Page View", item, titles);
+  }, 200);
 };
 
-export {dataLayerStart, dataLayerRedirect}
+const dataLayerRedirect = (data) => {
+  const titles = data.map((items) => items.title);
+  const item = { event: "offerview", action: "viewaction", value: 0 };
+  setDataLayer(item);
+  setKlaviyo("User Redirect Engagement", item, titles);
+};
+
+export { dataLayerStart, dataLayerRedirect };
