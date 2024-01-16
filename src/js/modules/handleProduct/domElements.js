@@ -117,7 +117,6 @@ const createMultipleOptionsDOM = (element, primaryOption, secondaryOption, produ
       case "Medium": return "M";
       case "Large": return "L";
       case "X-Large": return "XL";
-      case "2XL": return "XXL";
       default: return value;
     }
   }
