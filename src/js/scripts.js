@@ -22,6 +22,7 @@ buyButtonsIds.forEach((ids) => {
 });
 
 productsID.forEach((id) => {
+  if(typeof(id) == "string") id = id.split("-")[0]
   row[id] = document.querySelector(`.products-list.prod-${id}`);
 });
 

@@ -1,11 +1,19 @@
 import { apiOptions, fetchUrl } from "../../variables.js";
 
 const filterVariants = (data, ids) => {
-  const getVariant = (id) => {
-    if (typeof id == "string" && id.includes("-")) return "gid://shopify/ProductVariant/" + id.split("-")[1];
+  const getVariants = (id) => {
+    const idStart = "gid://shopify/ProductVariant/";
+    if (typeof id == "string" && id.includes("-")) {
+      const filteredIds = [];
+      const idsArray = id.split("-");
+      for (let i = 1; i < idsArray.length; i++) {
+        filteredIds.push(idStart + idsArray[i].replace("-", ""));
+      }
+      return filteredIds;
+    }
     return null;
   };
-  
+
   const getProdIndex = (data, id) => {
     id = id.split("-")[0];
     for (let i = 0; i < data.length; i++) {
@@ -13,12 +21,14 @@ const filterVariants = (data, ids) => {
     }
   };
 
+  const isAvailable = (variant) => variant.node.availableForSale === false;
+
   ids.forEach((id) => {
-    const variant = getVariant(id);
-    if (variant) {
+    const variants = getVariants(id);
+    if (variants) {
       const i = getProdIndex(data, id);
-      data[i].variants.edges = data[i].variants.edges.filter((filteredVariant) => filteredVariant.node.id == variant);
-      data[i].availableForSale = data[i].variants.edges[0].node.availableForSale
+      data[i].variants.edges = data[i].variants.edges.filter((filteredVariant) => variants.includes(filteredVariant.node.id));
+      data[i].availableForSale = !data[i].variants.edges.every(isAvailable);
     }
   });
 };
