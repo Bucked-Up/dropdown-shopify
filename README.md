@@ -16,7 +16,16 @@
     max-height: 2.9456rem !important;
   }
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/scss/style.css" />
+<script>
+  const getCdnStyle = () =>{
+    const cdnStyle = document.createElement("link");
+    cdnStyle.rel = "stylesheet";
+    const currentTime = Math.floor(+new Date() / (60 * 60 * 1000))
+    cdnStyle.href = `https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/scss/style.css?t=${currentTime}`
+    document.head.appendChild(cdnStyle)
+  }
+  getCdnStyle();
+</script>
 ```
 
 ### 2. Place this code into a html block, where you want the product to be (one for each product) (change the 999 for the product id)
@@ -102,8 +111,16 @@
 
   const buyButton = [];
   const row = {};
+
+  const getCdnScript = () =>{
+    const cdnScript = document.createElement("script");
+    cdnScript.type = "module";
+    const currentTime = Math.floor(+new Date() / (60 * 60 * 1000))
+    cdnScript.src = `https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/js/scripts.js?t=${currentTime}`
+    document.body.appendChild(cdnScript)
+  }
+  getCdnScript();
 </script>
-<script src="https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@latest/src/js/scripts.js" type="module"></script>
 ```
 
 You can add how much you want from the product depending on the button, the discountCode and the products you want from the specific button.
