@@ -7,40 +7,42 @@ import optionalProduct from "./modules/handleProduct/optionalProduct.js";
 import { dataLayerStart } from "./modules/dataLayer.js";
 
 const setQuantity = (id) => {
-  const isString = typeof (id) === "string"
-  const button = document.querySelector(isString ? id : id.id)
-  if (!isString){
-    id.quantity && button.setAttribute("quantity", id.quantity)
-    id.products && button.setAttribute("products", id.products)
-    id.discountCode && button.setAttribute("discountCode", id.discountCode)
+  const isString = typeof id === "string";
+  const button = document.querySelector(isString ? id : id.id);
+  if (!isString) {
+    id.quantity && button.setAttribute("quantity", id.quantity);
+    id.products && button.setAttribute("products", id.products);
+    id.discountCode && button.setAttribute("discountCode", id.discountCode);
   }
-  return button
-}
+  return button;
+};
 
 buyButtonsIds.forEach((ids) => {
-  buyButton.push(setQuantity(ids))
+  buyButton.push(setQuantity(ids));
 });
 
 productsID.forEach((id) => {
-  if(typeof(id) == "string") id = id.split("-")[0]
+  if (typeof id == "string") id = id.split("-")[0];
   row[id] = document.querySelector(`.products-list.prod-${id}`);
 });
 
 const main = async () => {
   toggleLoading();
-  const data = await fetchProduct({ ids: productsID, isHidden: false });
-  const hiddenProductsData = await fetchProduct({ ids: hiddenProducts, isHidden: true })
-  data.push(...hiddenProductsData)
+  const [data, hiddenProductsData] = await Promise.all([
+    fetchProduct({ ids: productsID, isHidden: false }),
+    fetchProduct({ ids: hiddenProducts, isHidden: true }),
+  ]);
+  data.push(...hiddenProductsData);
   dataLayerStart(data);
   let optionalData = [];
   let selectedOptionalData;
   if (optionalProducts.length > 0) {
-    optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false })
+    optionalData = await fetchProduct({ ids: optionalProducts, isHidden: false });
     selectedOptionalData = { selected: undefined };
   }
-  const noStock = (el) =>{
+  const noStock = (el) => {
     return !el.availableForSale;
-  } 
+  };
   if (data.some(noStock) || optionalData.some(noStock)) {
     alert("Product not found.");
     window.location.href = "https://buckedup.com";
@@ -49,23 +51,24 @@ const main = async () => {
   if (optionalProducts.length > 0) {
     optionalProduct(optionalData, selectedOptionalData);
   }
-  data.filter(product => !product.isHidden).forEach((product, i) => {
-    if (product.options.length > 1) {
-      multipleOptionsProduct(product, i);
-      return;
-    }
-    normalProduct(product);
-  });
+  data
+    .filter((product) => !product.isHidden)
+    .forEach((product, i) => {
+      if (product.options.length > 1) {
+        multipleOptionsProduct(product, i);
+        return;
+      }
+      normalProduct(product);
+    });
   buyButton.forEach((btn) => {
     btn.addEventListener("click", () => {
       if (!btn.hasAttribute("disabled")) {
-        if (selectedOptionalData && selectedOptionalData.selected)
-          data.push(selectedOptionalData.selected)
+        if (selectedOptionalData && selectedOptionalData.selected) data.push(selectedOptionalData.selected);
         buy(btn, data);
       }
     });
   });
   toggleLoading();
-}
+};
 
 main();
