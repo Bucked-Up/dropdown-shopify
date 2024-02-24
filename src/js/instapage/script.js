@@ -3,8 +3,8 @@ const page_id = "";
 const version_id = "";
 const urlParamsCookies = ["click_id", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
 
-const productsID = ["8685147062578-46753455735090-46753455407410"]; //ID of each the product
-const hiddenProducts = [8858111410482];
+const productsID = []; //ID of each the product
+const hiddenProducts = ["8768930185522-46954581885234",8858111410482];
 const optionalProducts = [];
 const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
 const discountCode = "";
