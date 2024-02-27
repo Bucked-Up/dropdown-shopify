@@ -30,7 +30,6 @@ const optionalProduct = (optionalData, selectedOptionalData) => {
     document.querySelector(`.optional-prod-${optionalData[0].id}`).querySelector("input").checked = true
     updateSelected(optionalData[0]);
     selectedOptionalData.selected = optionalData[0];
-    console.log(selectedOptionalData)
   }
 }
 

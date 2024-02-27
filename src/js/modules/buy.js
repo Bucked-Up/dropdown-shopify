@@ -26,31 +26,41 @@ const getVariantId = (data) => {
   return { result: variantId }
 }
 
-const addDiscount = async (checkoutId, btnDiscountCode) => {
-  const input = {
-    "checkoutId": checkoutId,
-    "discountCode": btnDiscountCode || discountCode
-  }
-  const query = `
-    mutation checkoutDiscountCodeApplyV2($checkoutId: ID!, $discountCode: String!) {
-      checkoutDiscountCodeApplyV2(checkoutId: $checkoutId, discountCode: $discountCode) {
-        checkout {
-          id
-          webUrl
+const addDiscount = async (checkoutId, code) => {
+  const postDiscount = async (code) => {
+    const input = {
+      checkoutId: checkoutId,
+      discountCode: code,
+    };
+    const query = `
+      mutation checkoutDiscountCodeApplyV2($checkoutId: ID!, $discountCode: String!) {
+        checkoutDiscountCodeApplyV2(checkoutId: $checkoutId, discountCode: $discountCode) {
+          checkout {
+            id
+            webUrl
+          }
         }
       }
-    }
-  `
-  const body = {
-    query: query,
-    variables: input,
+    `;
+    const body = {
+      query: query,
+      variables: input,
+    };
+    const response = await fetch(fetchUrl, {
+      ...apiOptions,
+      body: JSON.stringify(body),
+    });
+    return response;
   };
-  const response = await fetch(fetchUrl, {
-    ...apiOptions,
-    body: JSON.stringify(body),
-  });
-  return response
-}
+
+  let response;
+  for (let indivCode of code.split("-")) {
+    response = await postDiscount(indivCode);
+    if (!response.ok) return response;
+  }
+
+  return response;
+};
 
 const addCustomAttributes = async (attributes, id) => {
   const input = {
@@ -87,7 +97,7 @@ const startPopsixle = (id) => {
   if (typeof a10x_dl != 'undefined') {
     a10x_dl.unique_checkout_id = id;
     session_sync(a10x_dl.s_id, "unique_checkout_id", a10x_dl.unique_checkout_id);
-  } else { console.log("Popsixcle script not found.") }
+  } else { console.warn("Popsixcle script not found.") }
 }
 
 //updates order
@@ -168,7 +178,7 @@ const buy = async (btn, data) => {
     const checkoutId = apiData.data.checkoutCreate.checkout.id
     const btnDiscountCode = btn.getAttribute("discountCode")
     if (discountCode !== "" || btnDiscountCode) {
-      const responseDiscount = await addDiscount(checkoutId, btnDiscountCode)
+      const responseDiscount = await addDiscount(checkoutId, btnDiscountCode || discountCode)
       if (!responseDiscount.ok)
         throw new Error("Api Discount Error.")
     }
@@ -184,7 +194,7 @@ const buy = async (btn, data) => {
     window.location.href = apiData.data.checkoutCreate.checkout.webUrl;
   } catch (error) {
     alert("There was a problem. Please try again later.");
-    console.log(error);
+    console.error(error);
   }
 };
 

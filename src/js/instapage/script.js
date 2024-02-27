@@ -4,10 +4,10 @@ const version_id = "";
 const urlParamsCookies = ["click_id", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
 
 const productsID = []; //ID of each the product
-const hiddenProducts = ["8768930185522-46954581885234",8858111410482];
+const hiddenProducts = [8685147062578,"8685145588018-46753449673010-46753449640242-46753449574706-46753449804082"];
 const optionalProducts = [];
-const buyButtonsIds = ["#element-35"]; //IDs of each button of each product(in the order put in productID).
-const discountCode = "";
+const buyButtonsIds = [{id: "#element-35", discountCode: "pogfb1-POGFREESHIPPING"}]; //IDs of each button of each product(in the order put in productID).
+const discountCode = "pogfb2";
 const lastVariantElements = []; //for when last variant is moved.
 
 //stop here.

@@ -86,7 +86,7 @@ const fetchProduct = async ({ ids, isHidden }) => {
     filterVariants(data, ids);
 
     data.forEach((obj) => {
-      if (!obj.availableForSale) console.log("Out of stock: ", obj.id, obj.title);
+      if (!obj.availableForSale) console.warn("Out of stock: ", obj.id, obj.title);
       if (isHidden) obj.isHidden = true;
       obj.id = obj.id.split("/").slice(-1)[0];
 
@@ -109,7 +109,7 @@ const fetchProduct = async ({ ids, isHidden }) => {
     return data;
   } catch (error) {
     alert("Product not found.");
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
