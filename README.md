@@ -21,7 +21,7 @@
     const cdnStyle = document.createElement("link");
     cdnStyle.rel = "stylesheet";
     const currentTime = Math.floor(+new Date() / (60 * 60 * 1000))
-    cdnStyle.href = `https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@1/src/scss/style.css?t=${currentTime}`
+    cdnStyle.href = `https://cdn.jsdelivr.net/gh/Bucked-Up/dropdown-shopify@2/src/scss/style.css?t=${currentTime}`
     document.head.appendChild(cdnStyle)
   }
   getCdnStyle();
@@ -116,7 +116,7 @@
     const cdnScript = document.createElement("script");
     cdnScript.type = "module";
     const currentTime = Math.floor(+new Date() / (60 * 60 * 1000))
-    cdnScript.src = `https://cdn.jsdelivr.net/gh/BuckedUp-DasLabs/dropdown-shopify@1/src/js/scripts.js?t=${currentTime}`
+    cdnScript.src = `https://cdn.jsdelivr.net/gh/Bucked-Up/dropdown-shopify@2/src/js/scripts.js?t=${currentTime}`
     document.body.appendChild(cdnScript)
   }
   getCdnScript();
@@ -132,6 +132,7 @@ const buyButtonsIds = ["#element-1",{id: "#element-2", quantity: 2, discountCode
 ```
 
 You can specify whitch variant of the product like so: "productID-variantID". Ex:
+
 ```
 ["999-875",998]
 ```
