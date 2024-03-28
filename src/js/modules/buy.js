@@ -176,9 +176,12 @@ const buy = async (btn, data) => {
     if (!response.ok)
       throw new Error("Api Error.")
     const checkoutId = apiData.data.checkoutCreate.checkout.id
+    const urlDiscount = urlParams.get("discount");
     const btnDiscountCode = btn.getAttribute("discountCode")
-    if (discountCode !== "" || btnDiscountCode) {
-      const responseDiscount = await addDiscount(checkoutId, btnDiscountCode || discountCode)
+    if (discountCode !== "" || btnDiscountCode || urlDiscount) {
+      let discount = btnDiscountCode || discountCode;
+      if (urlDiscount) discount = discount ? discount + `-${urlDiscount}` : urlDiscount;
+      const responseDiscount = await addDiscount(checkoutId, discount)
       if (!responseDiscount.ok)
         throw new Error("Api Discount Error.")
     }
