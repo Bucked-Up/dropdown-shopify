@@ -1,4 +1,4 @@
-# DEPRECATED
+# DEPRECATED, use cart-shopify with noCart:true instead.
 
 ## How to put into instapage
 
