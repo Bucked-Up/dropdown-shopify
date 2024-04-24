@@ -1,4 +1,4 @@
-# Scripts for handling shopify api calls on upcells with dropdowns
+# DEPRECATED
 
 ## How to put into instapage
 
